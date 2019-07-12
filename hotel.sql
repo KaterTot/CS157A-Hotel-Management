@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS ROOM;
 CREATE TABLE ROOM
 (rID INT AUTO_INCREMENT,
  numRented INT,
+ stars INT(1),
  PRIMARY KEY (rID),
  FOREIGN KEY(roomType) REFERENCES roomType(roomType) on delete cascade
 ) ;
