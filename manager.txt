@@ -1,0 +1,3 @@
+	katertot	password
+	alex	\N
+	maria	\N
