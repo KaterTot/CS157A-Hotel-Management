@@ -6,19 +6,6 @@ import java.sql.*;
 
 public class HotelManagerScreen {
 	JFrame frame;
-	private class DBConnection {
-		public Connection myConn;
-
-		public DBConnection() {
-
-			try {
-				Class.forName("com.mysql.jdbc.Driver"); 
-				myConn = DriverManager.getConnection("jdbc:mysql://localhost:3308/UserDatabase", "root", "");
-			} catch (Exception exc) {
-				exc.printStackTrace();
-			}
-		}
-	}
 	
 	public void createScreen() {
 		frame = new JFrame("Manager Screen");

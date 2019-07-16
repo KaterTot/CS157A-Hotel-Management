@@ -1,4 +1,5 @@
 import java.sql.*;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -10,23 +11,7 @@ public class HotelStartScreen {
 	HotelSQLProcedures pr = new HotelSQLProcedures();
 	JFrame frame;
 	JFrame manLogin;
-//	DBConnection mt = new DBConnection();
-//	Connection myConn = mt.myConn;
-	/*
-	private class DBConnection {
-		public Connection myConn;
 
-		public DBConnection() {
-
-			try {
-				Class.forName("com.mysql.jdbc.Driver"); 
-				myConn = DriverManager.getConnection("jdbc:mysql://localhost:3308/UserDatabase", "root", "");
-			} catch (Exception exc) {
-				exc.printStackTrace();
-			}
-		}
-	}
-	*/
 	public void createScreen() {
    frame = new JFrame("Start Screen");
    frame.setPreferredSize(new Dimension(2000,2000));
@@ -55,15 +40,24 @@ public class HotelStartScreen {
 	   public void actionPerformed(ActionEvent e) {
 		   frame.setVisible(false);
 		   HotelStartScreen screen = new HotelStartScreen();
-		   screen.managerLogin();
+		   screen.managerLogin("manager");
 	   }
    });
+   
+   customer.addActionListener(new ActionListener() {
+	   public void actionPerformed(ActionEvent e) {
+		   frame.setVisible(false);
+		   HotelStartScreen screen = new HotelStartScreen();
+		   screen.managerLogin("customer");
+	   }
+   });
+   
      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
      frame.pack();
      frame.setVisible(true);
 	}
 	
-	public void managerLogin()   {
+	public void managerLogin(String position)   {
 		manLogin = new JFrame("Start Screen");
 		manLogin.setPreferredSize(new Dimension(2000,2000));
 		JLabel label = new JLabel("Please log in to continue");
@@ -102,27 +96,26 @@ public class HotelStartScreen {
 		
 		button.addActionListener(new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
-				   manLogin.setVisible(false);
 				   String uName = user.getText();
 				   String passw = pass.getText();
-			//	   HotelSQLProcedures pr = new HotelSQLProcedures();
-				   pr.validateLogin(uName, passw);
-		/*
-				   try {
-				   PreparedStatement pst = 
-						   myConn.prepareStatement("select * from User where username=? and password=?");
-				   pst.setString(1, uName);
-				   pst.setString(2, passw);
-				  ResultSet rs = pst.executeQuery();
-				  if(rs.next()) {
-					  HotelManagerScreen screen = new HotelManagerScreen();
-					  screen.createScreen();
-				  }
+				   int cID = pr.validateLogin(uName, passw, position);
+				   if(cID > 0) {
+					   manLogin.setVisible(false);
+					   if(position.equals("manager")) {
+					      HotelManagerScreen screen = new HotelManagerScreen();
+					      screen.createScreen();
+					   }
+					   else {
+						   HotelCustomerScreen screen = new HotelCustomerScreen();
+						   screen.createScreen(cID);
+					   }
 				   }
-				   catch (SQLException exc) {
-						System.out.println("An error occured. Error: " + exc.getMessage());
-			   }
-			   */
+				   else {
+					   JOptionPane.showMessageDialog(frame,"You have entered " +
+			                     "incorrect username or password. Please try again.");
+					   user.setText("");
+					   pass.setText("");
+				   }
 		   }});
 		
 		manLogin.add(finalPanel);
@@ -130,4 +123,5 @@ public class HotelStartScreen {
 	    manLogin.pack();
 	    manLogin.setVisible(true);
 	}
+	
 }

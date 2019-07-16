@@ -1,4 +1,6 @@
 import java.sql.Connection;
+
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,28 +22,94 @@ public class HotelSQLProcedures {
 
 			try {
 				Class.forName("com.mysql.jdbc.Driver"); 
-				myConn = DriverManager.getConnection("jdbc:mysql://localhost:3308/UserDatabase", "root", "");
+				myConn = DriverManager.getConnection("jdbc:mysql://localhost:3308/HOTEL", "root", "");
 			} catch (Exception exc) {
 				exc.printStackTrace();
 			}
 		}
 	}
 	
-	public void validateLogin(String uName, String password)   {
+	public int validateLogin(String uName, String password, String position)   {
 		boolean res = false;
 		   try {
 			   PreparedStatement pst = 
-					   myConn.prepareStatement("select * from User where username=? and password=?");
+					   myConn.prepareStatement("select * from " + position + " where uNAME=? and pWORD=?");
 			   pst.setString(1, uName);
 			   pst.setString(2, password);
 			  ResultSet rs = pst.executeQuery();
 			  if(rs.next()) {
-				  HotelManagerScreen screen = new HotelManagerScreen();
-				  screen.createScreen();
+				  int cID = rs.getInt("cID");
+				  return cID;
+			//	  res = true;
 			  }
 			   }
 			   catch (SQLException exc) {
 					System.out.println("An error occured. Error: " + exc.getMessage());
 		   }
+		   return 0;
 	}
+	
+	public void addManager(String uName, String password)   {
+		
+	}
+	
+	public void deleteManager(String uName)   {
+		
+	}
+	
+	public void addRoom(String roomType)  {
+		
+	}
+	
+	public ResultSet getAvailableRooms(Date in, Date out, int price)   {
+		ResultSet rs = null;
+		 try {
+			   PreparedStatement pst = 
+					   myConn.prepareStatement("select rID, ROOMTYPE.roomType, price, stars"
+					   		+ " from ROOMTYPE natural join ROOM natural join RATING where price<?"
+					   		+ "and ROOM.rID in (select rID from RESERVATION where (beginDate>? and beginDate>?)"
+					   		+ "or (endDate<? and endDate<?))");
+			   pst.setDouble(1, price);
+			   pst.setDate(2, in);
+			   pst.setDate(3, out);
+			   pst.setDate(4, in);
+			   pst.setDate(5, out);
+			   ResultSet r = pst.executeQuery();
+			   rs = r;
+			   }
+			   catch (SQLException exc) {
+					System.out.println("An error occured. Error: " + exc.getMessage());
+		   }
+		return rs;
+	}
+	
+	public void insertReservation(int rID, Date in, Date out, int cID)   {
+		 try {
+			   PreparedStatement pst = 
+					   myConn.prepareStatement("insert into RESERVATION (cID, rID, beginDate, endDate) values(?,?,?,?)");
+			   pst.setInt(1, cID);
+			   pst.setInt(2, rID);
+			   pst.setDate(3, in);
+			   pst.setDate(4, out);
+	
+			  pst.executeUpdate();
+			   }
+			   catch (SQLException exc) {
+					System.out.println("An error occured. Error: " + exc.getMessage());
+		   }
+	}
+	
+	public void deleteRoom(int rID)   {
+		
+	}
+	
+	public void showMostPopularRooms()   {
+		
+	}
+	
+	public void updateRoomPrice(int rID)   {
+		
+	}
+	
+	
 }
