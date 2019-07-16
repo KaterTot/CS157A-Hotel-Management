@@ -78,7 +78,7 @@ DROP TRIGGER IF EXISTS reserveARoom;
 CREATE TRIGGER reserveARoom
 AFTER INSERT ON reservation 
 FOR EACH ROW
-UPDATE room, reservation SET numRented = numRented + 1 WHERE reservation.rID = room.rID;
+UPDATE room SET numRented = numRented + 1 WHERE new.rID = room.rID;
 
 DELIMITER //
 DROP TRIGGER IF EXISTS cancelReservation;
