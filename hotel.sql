@@ -1,6 +1,6 @@
 DROP DATABASE IF EXISTS HOTEL;
 CREATE DATABASE HOTEL;
-USE HOTEL; 
+USE HOTEL;
 
 DROP TABLE IF EXISTS MANAGER;
 CREATE TABLE MANAGER
@@ -17,7 +17,7 @@ CREATE TABLE CUSTOMER
 (cID INT AUTO_INCREMENT,
  uNAME VARCHAR(30),
  pWORD VARCHAR(30),
- CreditCard INT,
+ CreditCard VARCHAR(19),
  PRIMARY KEY (cID),
  UNIQUE (uName)
 ) ;
@@ -68,9 +68,26 @@ CREATE TABLE CANCELLATION
  rID INT,
  cID INT,
  cancellationDate timestamp not null on update current_timestamp,
- FOREIGN KEY(canclID) REFERENCES RESERVATION(resID) on delete cascade,
+ UNIQUE (canclID),
  FOREIGN KEY(rID) REFERENCES ROOM(rID) on delete cascade,
  FOREIGN KEY(cID) REFERENCES CUSTOMER(cID) on delete cascade
 ) ;
 
+
+DROP TRIGGER IF EXISTS reserveARoom;
+CREATE TRIGGER reserveARoom
+AFTER INSERT ON reservation 
+FOR EACH ROW
+UPDATE room, reservation SET numRented = numRented + 1 WHERE reservation.rID = room.rID;
+
+DELIMITER //
+DROP TRIGGER IF EXISTS cancelReservation;
+CREATE TRIGGER cancelReservation
+AFTER DELETE ON reservation 
+FOR EACH ROW
+BEGIN
+	UPDATE room SET numRented = numRented - 1 WHERE old.rID = room.rID;
+	INSERT INTO cancellation(canclID, rID, cID, cancellationDate) VALUES (old.resID, old.rID, old.cID, current_timestamp);
+END//
+DELIMITER ; 
 
