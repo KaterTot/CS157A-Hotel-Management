@@ -37,10 +37,17 @@ public class HotelSQLProcedures {
 			   pst.setString(1, uName);
 			   pst.setString(2, password);
 			  ResultSet rs = pst.executeQuery();
-			  if(rs.next()) {
-				  int mID = rs.getInt("mID");
-				  return mID;
-			  }
+			   if(position.equals("customer")   {
+			       if(rs.next()) {
+				  int cID = rs.getInt("cID");
+				  return cID;
+			         }
+			      }
+			      else if(position.equals("manager"))   {
+				 if(rs.next())  {
+					  return 1;
+				  }      
+			      }
 			   }
 			   catch (SQLException exc) {
 					System.out.println("An error occured. Error: " + exc.getMessage());
