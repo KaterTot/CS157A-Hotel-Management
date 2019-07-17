@@ -119,9 +119,11 @@ JFrame input;
 		p.add(pr);
 		
 		JButton button = new JButton("Search for rooms");
+		JButton back = new JButton("Back");
 		JPanel bPanel = new JPanel();
 		bPanel.setMaximumSize(new Dimension(500, 100));
 		bPanel.add(button);
+		bPanel.add(back);
 		
 		JPanel finalPanel = new JPanel();
 		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
@@ -131,6 +133,14 @@ JFrame input;
 		finalPanel.add(e);
 		finalPanel.add(p);
 		finalPanel.add(bPanel);
+		
+		back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				input.setVisible(false);
+				HotelCustomerScreen screen = new HotelCustomerScreen();
+				screen.createScreen(cID);
+			}
+		});
 		
 		 button.addActionListener(new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {

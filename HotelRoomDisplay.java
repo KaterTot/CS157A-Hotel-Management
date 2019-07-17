@@ -72,10 +72,12 @@ public class HotelRoomDisplay {
 	   JTextField field = new JTextField();
 	   field.setPreferredSize(new Dimension(100, 20));
 	   JButton button = new JButton("Book");
+	   JButton back = new JButton("Back");
 	   JPanel panel = new JPanel();
 	   panel.add(label);
 	   panel.add(field);
 	   panel.add(button);
+	   panel.add(back);
 	   
 	   JTable j = new JTable(rooms, col); 
 	   j.setBounds(30, 40, 2000, 300); 
@@ -91,6 +93,14 @@ public class HotelRoomDisplay {
     		   proc.insertReservation(rID, in, out, cID);
     		   HotelRoomDisplay disp = new HotelRoomDisplay();
     		   disp.registrationConfirmScreen(rID, cID);
+    	   }
+       });
+       
+       back.addActionListener(new ActionListener() {
+    	   public void actionPerformed(ActionEvent e) {
+    		   frame.setVisible(false);
+    		   HotelCustomerScreen screen = new HotelCustomerScreen();
+    		   screen.reserveInput(cID);
     	   }
        });
        

@@ -30,7 +30,6 @@ public class HotelSQLProcedures {
 	}
 	
 	public int validateLogin(String uName, String password, String position)   {
-		boolean res = false;
 		   try {
 			   PreparedStatement pst = 
 					   myConn.prepareStatement("select * from " + position + " where uNAME=? and pWORD=?");
@@ -40,7 +39,6 @@ public class HotelSQLProcedures {
 			  if(rs.next()) {
 				  int cID = rs.getInt("cID");
 				  return cID;
-			//	  res = true;
 			  }
 			   }
 			   catch (SQLException exc) {
@@ -61,14 +59,37 @@ public class HotelSQLProcedures {
 		
 	}
 	
+	public int createAccount(String uName, String pass, int card)   {
+		 try {
+			   PreparedStatement pst = 
+					   myConn.prepareStatement("insert into CUSTOMER (uNAME, pWORD, CreditCard) values(?,?,?)");
+			   pst.setString(1, uName);
+			   pst.setString(2, pass);
+			   pst.setInt(3, card);
+	    		  pst.executeUpdate();
+	    		  return 1;
+			   }
+			   catch (SQLException exc) {
+					int err = exc.getErrorCode();
+					return err;
+		   }
+	}
+	
 	public ResultSet getAvailableRooms(Date in, Date out, int price)   {
 		ResultSet rs = null;
 		 try {
+		//	   PreparedStatement pst = 
+		//			   myConn.prepareStatement("select rID, ROOMTYPE.roomType, price, stars"
+		//			   		+ " from ROOMTYPE natural join ROOM natural join RATING where price<?"
+		//			   		+ "and ROOM.rID in (select rID from RESERVATION where (beginDate>? and beginDate>?)"
+		//			   		+ "or (endDate<? and endDate<?))");
+			   
 			   PreparedStatement pst = 
-					   myConn.prepareStatement("select rID, ROOMTYPE.roomType, price, stars"
+					   myConn.prepareStatement("select rID, ROOMTYPE.roomType, price, avg(stars) as stars"
 					   		+ " from ROOMTYPE natural join ROOM natural join RATING where price<?"
-					   		+ "and ROOM.rID in (select rID from RESERVATION where (beginDate>? and beginDate>?)"
-					   		+ "or (endDate<? and endDate<?))");
+					   		+ "and not exists (select rID from RESERVATION where (? between beginDate and endDate) "
+					   		+ "or (? between beginDate and endDate) or (? >= beginDate and ? <= endDate))"
+					   		+ "group by rID");
 			   pst.setDouble(1, price);
 			   pst.setDate(2, in);
 			   pst.setDate(3, out);
