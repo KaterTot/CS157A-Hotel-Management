@@ -93,9 +93,9 @@ public class HotelSQLProcedures {
 		//			   		+ "or (endDate<? and endDate<?))");
 			   
 			   PreparedStatement pst = 
-					   myConn.prepareStatement("select rID, ROOMTYPE.roomType, price, avg(stars) as stars"
-					   		+ " from ROOMTYPE natural join ROOM left outer join RATING using(rID) where price<?"
-					   		+ "and not exists (select rID from RESERVATION where (? between beginDate and endDate) "
+					    myConn.prepareStatement("select rID, ROOMTYPE.roomType, price, avg(stars) as stars"
+					   		+ " from (ROOMTYPE natural join ROOM) left outer join RATING using(rID) where price<?"
+					   		+ " and rID not in (select rID from RESERVATION where (? between beginDate and endDate) "
 					   		+ "or (? between beginDate and endDate) or (? >= beginDate and ? <= endDate))"
 					   		+ "group by rID");
 			   pst.setDouble(1, price);
