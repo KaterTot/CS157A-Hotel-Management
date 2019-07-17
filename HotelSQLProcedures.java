@@ -37,7 +37,7 @@ public class HotelSQLProcedures {
 			   pst.setString(1, uName);
 			   pst.setString(2, password);
 			  ResultSet rs = pst.executeQuery();
-			   if(position.equals("customer")   {
+			   if(position.equals("customer"))   {
 			       if(rs.next()) {
 				  int cID = rs.getInt("cID");
 				  return cID;
