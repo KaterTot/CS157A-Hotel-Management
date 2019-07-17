@@ -38,8 +38,8 @@ public class HotelSQLProcedures {
 			   pst.setString(2, password);
 			  ResultSet rs = pst.executeQuery();
 			  if(rs.next()) {
-				  int cID = rs.getInt("cID");
-				  return cID;
+				  int mID = rs.getInt("mID");
+				  return mID;
 			  }
 			   }
 			   catch (SQLException exc) {
