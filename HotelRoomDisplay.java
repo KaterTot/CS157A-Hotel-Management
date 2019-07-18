@@ -42,12 +42,19 @@ public class HotelRoomDisplay {
        
        button.addActionListener(new ActionListener() {
     	   public void actionPerformed(ActionEvent e) {
-    		   frame.setVisible(false);
     		   int rID = Integer.parseInt(field.getText());
     		   HotelSQLProcedures proc = new HotelSQLProcedures();
-    		   proc.cancelReservations(cID, rID);
+    		   int num = proc.cancelReservations(cID, rID);
+    		   if(num > 0)  {
+    		   frame.setVisible(false);
     		   HotelCustomerScreen screen = new HotelCustomerScreen();
     		   screen.reservationCancelConfirm(cID);
+    		   }
+    		   else {
+    			   JOptionPane.showMessageDialog(frame,"You have entered incorrect"
+    			   		+ "room number. Please try again.");
+				   field.setText("");
+    		   }
     	   }
        });
        
