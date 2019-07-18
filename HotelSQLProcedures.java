@@ -111,7 +111,7 @@ public class HotelSQLProcedures {
 					   		+ "group by rID");
 			   */
 			   PreparedStatement pst = 
-					   myConn.prepareStatement("select rID, ROOMTYPE.roomType, price, avg(CAST(stars AS DECIMAL)) stars"
+					   myConn.prepareStatement("select rID, ROOMTYPE.roomType, price, avg(CAST(stars AS DOUBLE)) stars"
 					   		+ " from ROOMTYPE natural join ROOM left outer join RATING using(rID) where price<?"
 					   		+ " and rID not in (select rID from RESERVATION where (? between beginDate and endDate) "
 					   		+ "or (? between beginDate and endDate) or (? >= beginDate and ? <= endDate))"
