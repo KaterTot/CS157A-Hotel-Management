@@ -20,12 +20,14 @@ public class HotelSQLProcedures {
 
 		public DBConnection() {
 
-			try {
-				Class.forName("com.mysql.jdbc.Driver"); 
-				myConn = DriverManager.getConnection("jdbc:mysql://localhost:3308/HOTEL", "root", "");
-			} catch (Exception exc) {
-				exc.printStackTrace();
-			}
+			        try {
+					// depricated
+					// Class.forName("com.mysql.jdbc.Driver");
+					myConn = DriverManager.getConnection(DatabaseCredentials.URL, DatabaseCredentials.USER,
+							DatabaseCredentials.PASSWORD);
+				} catch (Exception exc) {
+					exc.printStackTrace();
+				}
 		}
 	}
 	
