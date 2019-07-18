@@ -170,15 +170,13 @@ JFrame input;
 		finalPanel.add(panel);
 		finalPanel.add(bPanel);
 		
-		
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				HotelCustomerScreen screen = new HotelCustomerScreen();
 				screen.createScreen(cID);
 			}
-		});
-		
+		});	
 		
 		frame.add(finalPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
