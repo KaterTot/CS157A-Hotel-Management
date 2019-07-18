@@ -10,53 +10,47 @@ import java.sql.*;
 public class HotelRoomDisplay {
 	JFrame frame;
 	JFrame confirm;
-   public void createScreen(ResultSet rs)   {
+   public void displayReservations(String[][] data, String[] col, int cID)   {
 	   frame = new JFrame("Start Screen");
 	   frame.setPreferredSize(new Dimension(2000,2000));
 	   
-	   int count = 0;
-	   int row = 0;
-	   int col = 0;
-	   try {
-	   while(rs.next()) {
-		    count ++ ;
-	      }
-	   }
-	   catch(Exception e) {
-		   System.out.println(e);
-	   }
-	   String[][] d = new String[count][2];
-	   try {
-	   rs.beforeFirst();
-	   while(rs.next()) {
-		   col = 0;
-		   String title = rs.getString("title");
-		   d[row][col] = title;
-		   col ++ ;
-		   String auth = rs.getString("author");
-		   d[row][col] = auth;
-		   row ++;
-	   }
-	   }
-	   catch(Exception e) {
-		   System.out.println(e);
-	   }
+	   JLabel label = new JLabel("Please select the the room (Room ID) that you would like to cancel reservation for");
+	   JTextField field = new JTextField();
+	   field.setPreferredSize(new Dimension(100, 20));
+	   JButton button = new JButton("Cancel Reservation");
+	   JButton back = new JButton("Back");
 	   
-	   String[] columnNames = { "Title", "Author"};
-	   JTable j = new JTable(d, columnNames); 
+	   JTable j = new JTable(data, col); 
        j.setBounds(30, 40, 2000, 300); 
        JScrollPane sp = new JScrollPane(j); 
        sp.setMaximumSize(new Dimension(1000, 50));
        sp.setPreferredSize(new Dimension(0, 50));
-       JButton button = new JButton("Back");
+  
        JPanel panel = new JPanel();
+       panel.add(label);
+       panel.add(field);    
        panel.add(button);
-       JLabel label = new JLabel("Displaying stuff");
-       JPanel lPanel = new JPanel();
-       lPanel.add(label);
-       lPanel.add(Box.createVerticalStrut(50));
+       panel.add(back);
        
-       frame.add(lPanel, BorderLayout.NORTH);
+       back.addActionListener(new ActionListener() {
+    	   public void actionPerformed(ActionEvent e) {
+    		   frame.setVisible(false);
+    		   HotelCustomerScreen screen = new HotelCustomerScreen();
+    		   screen.createScreen(cID);
+    	   }
+       });
+       
+       button.addActionListener(new ActionListener() {
+    	   public void actionPerformed(ActionEvent e) {
+    		   frame.setVisible(false);
+    		   int rID = Integer.parseInt(field.getText());
+    		   HotelSQLProcedures proc = new HotelSQLProcedures();
+    		   proc.cancelReservations(cID, rID);
+    		   HotelCustomerScreen screen = new HotelCustomerScreen();
+    		   screen.reservationCancelConfirm(cID);
+    	   }
+       });
+       
        frame.add(sp, BorderLayout.CENTER);
        frame.add(panel, BorderLayout.PAGE_END); 
 	   

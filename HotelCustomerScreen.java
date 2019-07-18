@@ -1,5 +1,6 @@
 import java.awt.Dimension;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Date;  
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -76,11 +77,127 @@ JFrame input;
 			   }
 		   });
 		
+		delButton.addActionListener(new ActionListener() {
+			   public void actionPerformed(ActionEvent e) {
+				   HotelSQLProcedures pr = new HotelSQLProcedures();
+				   ResultSet rs = pr.getReservations(cID);
+				   try {
+				   if(!rs.next())   {
+					   frame.setVisible(false);
+					   HotelCustomerScreen screen = new HotelCustomerScreen();
+					   screen.showNoReservations(cID);
+				      }
+				   else {
+					   frame.setVisible(false);
+					   rs.beforeFirst();
+					   int count = 0;
+					   int row = 0;
+					   int col = 0;
+					   while(rs.next())   {
+						   count ++ ;
+					   }
+					   rs.beforeFirst();
+					   String[][] d = new String[count][5];
+					   while(rs.next())   {
+						   col = 0;
+						   String resID = String.valueOf(rs.getInt("resID"));
+						   d[row][col] = resID;
+						   col ++ ;
+						   String cID = String.valueOf(rs.getInt("cID"));
+						   d[row][col] = cID;
+						   col ++ ;
+						   String rID = String.valueOf(rs.getInt("rID"));
+						   d[row][col] = rID;
+						   col ++ ;
+						   String beg = String.valueOf(rs.getDate("beginDate"));
+						   d[row][col] = beg;
+						   col ++ ;
+						   String end = String.valueOf(rs.getDate("endDate"));
+						   d[row][col] = end;
+						   row ++;
+					   }
+					   String[] columns = {"Reservation ID", "Customer ID", "Room ID", "Check-in Date", "Check-out Date"};
+					   HotelRoomDisplay dis = new HotelRoomDisplay();
+					   dis.displayReservations(d, columns, cID);
+				     }
+				   }
+				   catch(SQLException ex)   {
+					   ex.getErrorCode();
+				   }
+			   }
+		   });
+		
 		frame.add(finalPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.pack();
 	    frame.setVisible(true);
 	}	
+	
+	public void showNoReservations(int cID)  {
+		frame = new JFrame("Input Screen");
+		frame.setPreferredSize(new Dimension(2000,2000));
+		JLabel label = new JLabel("You have no reservations at this time");
+		label.setFont(new Font("Serif", Font.PLAIN, 22));
+		JButton button = new JButton("Main Menu");
+		JPanel panel = new JPanel();
+		panel.setMaximumSize(new Dimension(500, 50));
+		panel.add(label);
+		
+		JPanel bPanel = new JPanel();
+		bPanel.setMaximumSize(new Dimension(500, 50));
+		bPanel.add(button);
+		JPanel finalPanel = new JPanel();
+		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
+		finalPanel.setLayout(boxlayout);
+		finalPanel.add(panel);
+		finalPanel.add(bPanel);
+		
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelCustomerScreen screen = new HotelCustomerScreen();
+				screen.createScreen(cID);
+			}
+		});
+		
+		frame.add(finalPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.pack();
+	    frame.setVisible(true);
+	}
+	
+	public void reservationCancelConfirm(int cID)   {
+		frame = new JFrame("Confirm Screen");
+		frame.setPreferredSize(new Dimension(2000,2000));
+		JLabel label = new JLabel("Your reservation has been cancelled");
+		label.setFont(new Font("Serif", Font.PLAIN, 22));
+		JButton button = new JButton("Main Menu");
+		JPanel panel = new JPanel();
+		panel.setMaximumSize(new Dimension(500, 50));
+		panel.add(label);
+		
+		JPanel bPanel = new JPanel();
+		bPanel.setMaximumSize(new Dimension(500, 50));
+		bPanel.add(button);
+		JPanel finalPanel = new JPanel();
+		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
+		finalPanel.setLayout(boxlayout);
+		finalPanel.add(panel);
+		finalPanel.add(bPanel);
+		
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelCustomerScreen screen = new HotelCustomerScreen();
+				screen.createScreen(cID);
+			}
+		});
+		
+		frame.add(finalPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.pack();
+	    frame.setVisible(true);
+	}
 	
 	public void reserveInput(int cID)   {
 		input = new JFrame("Input Screen");
