@@ -319,12 +319,21 @@ JFrame input;
 		
 		 button.addActionListener(new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
-				   input.setVisible(false);
 				   String sDate = start.getText();
 				   String en = end.getText();
-				   int price = Integer.parseInt(pr.getText());
-				    Date inDate = Date.valueOf(sDate);//converting string into sql date  
-				    Date outDate = Date.valueOf(en);
+				   String p = pr.getText();
+				   if(sDate.isEmpty() || en.isEmpty() || p.isEmpty())   {
+					   JOptionPane.showMessageDialog(input,"Please enter all required information");
+				   }
+				   else if((Date.valueOf(sDate)).compareTo(Date.valueOf(en)) > 0)   {
+					   JOptionPane.showMessageDialog(input,"Check-out date must be later than check-in date");
+					   end.setText("");
+				   }
+				   else {
+					input.setVisible(false);   
+					int price = Integer.parseInt(pr.getText());
+					Date inDate = Date.valueOf(sDate);//converting string into sql date  
+					Date outDate = Date.valueOf(en);
 				    HotelSQLProcedures proc = new HotelSQLProcedures();
 				    ResultSet rs = proc.getAvailableRooms(inDate,  outDate, price);
 				    int count = 0;
@@ -364,6 +373,7 @@ JFrame input;
 					   String[] columns = {"Room Number", "Room Type", "Price per Night", "Rating"};
 					   HotelRoomDisplay dis = new HotelRoomDisplay();
 					   dis.displayAvailableRooms(d, columns, inDate, outDate, cID);
+				   }
 			   }
 		   });
 		
