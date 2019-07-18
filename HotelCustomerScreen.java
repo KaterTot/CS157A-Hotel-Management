@@ -59,6 +59,15 @@ JFrame input;
 		remPanel.add(Box.createHorizontalStrut(50));
 		remPanel.add(remButton);
 		
+		JLabel rateRoom = new JLabel("Rate a room you have already stayed in");
+		JButton rateButton = new JButton("Rate");
+		JPanel ratePanel = new JPanel();
+		ratePanel.setMaximumSize(new Dimension(500, 50));
+		ratePanel.add(Box.createHorizontalStrut(20));
+		ratePanel.add(rateRoom);
+		ratePanel.add(Box.createHorizontalStrut(50));
+		ratePanel.add(rateButton);
+		
 		JPanel finalPanel = new JPanel();
 		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
 		finalPanel.setLayout(boxlayout);
@@ -68,6 +77,7 @@ JFrame input;
 		finalPanel.add(delPanel);
 		finalPanel.add(addRoomPanel);
 		finalPanel.add(remPanel);
+		finalPanel.add(ratePanel);
 		
 		bookButton.addActionListener(new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
@@ -127,6 +137,14 @@ JFrame input;
 			   }
 		   });
 		
+		rateButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelCustomerScreen screen = new HotelCustomerScreen();
+				screen.rateRoom(cID);
+			}
+		});
+		
 		frame.add(finalPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.pack();
@@ -152,6 +170,7 @@ JFrame input;
 		finalPanel.add(panel);
 		finalPanel.add(bPanel);
 		
+		
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
@@ -159,6 +178,7 @@ JFrame input;
 				screen.createScreen(cID);
 			}
 		});
+		
 		
 		frame.add(finalPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -197,6 +217,46 @@ JFrame input;
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.pack();
 	    frame.setVisible(true);
+	}
+	
+	public void rateRoom(int cID)
+	{		
+		HotelSQLProcedures proc = new HotelSQLProcedures();
+		ResultSet rs = proc.getReservedRooms(cID);
+		int count = 0;
+		int row = 0;
+		int col = 0;
+		try {
+			while(rs.next()) {
+				count ++ ;
+			}
+		}
+		catch(Exception ex) {
+			System.out.println(ex);
+		}
+		String[][] d = new String[count][3];
+		try {
+			rs.beforeFirst();
+			while(rs.next()) {
+				col = 0;
+				String rID = String.valueOf(rs.getInt("rID"));
+				d[row][col] = rID;
+				col ++ ;
+				String beginDate = String.valueOf(rs.getDate("beginDate"));
+				d[row][col] = beginDate;
+				col ++ ;
+				String endDate = String.valueOf(rs.getDate("endDate"));
+				d[row][col] = endDate;
+				col ++ ;
+				row ++;
+			}
+		}
+		catch(Exception ex) {
+			System.out.println(ex);
+		}
+		String[] columns = {"Room Number", "Check In Date", "Check Out Date"};
+		RateRoomDisplay dis = new RateRoomDisplay();
+		dis.displayPastReservations(d, columns, cID);
 	}
 	
 	public void reserveInput(int cID)   {

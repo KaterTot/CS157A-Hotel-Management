@@ -194,5 +194,30 @@ public class HotelSQLProcedures {
 		}
 	}
 	
+	public void rateRoom(int cID, int rID, int stars) {
+		try {
+			PreparedStatement pst = myConn.prepareStatement("INSERT INTO RATING (cID, rID, stars, ratingDate) VALUES(?,?,?,?)");
+			pst.setInt(1, cID);
+			pst.setInt(2, rID);
+			pst.setInt(3, stars);
+			pst.setDate(4, new java.sql.Date(System.currentTimeMillis()));
+			pst.executeUpdate();
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}
+	}
+
+	public ResultSet getReservedRooms(int cID) {
+		ResultSet rs = null;
+		try {
+			PreparedStatement pst = myConn.prepareStatement("SELECT * FROM RESERVATION WHERE cID = ?");
+			pst.setInt(1, cID);
+			ResultSet r = pst.executeQuery();
+			rs = r;
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}
+		return rs;
+	}
 	
 }
