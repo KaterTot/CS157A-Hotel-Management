@@ -154,7 +154,7 @@ public class HotelSQLProcedures {
 		 return rs;
 	}
 	
-	public void cancelReservations(int cID, int rID)   {
+	public int cancelReservations(int cID, int rID)   {
 		 try {
 	
 			   PreparedStatement pst = 
@@ -162,9 +162,11 @@ public class HotelSQLProcedures {
 			   pst.setInt(1, rID);
 			   pst.setInt(2, cID);
 			   int num = pst.executeUpdate();
+			   return num;
 			   }
 			   catch (SQLException exc) {
 					System.out.println("An error occured. Error: " + exc.getMessage());
+					return 0;
 		   }
 	}
 	
