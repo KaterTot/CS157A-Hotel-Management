@@ -20,14 +20,12 @@ public class HotelSQLProcedures {
 
 		public DBConnection() {
 
-			        try {
-					// depricated
-					// Class.forName("com.mysql.jdbc.Driver");
-					myConn = DriverManager.getConnection(DatabaseCredentials.URL, DatabaseCredentials.USER,
-							DatabaseCredentials.PASSWORD);
-				} catch (Exception exc) {
-					exc.printStackTrace();
-				}
+			try {
+				Class.forName("com.mysql.jdbc.Driver"); 
+				myConn = DriverManager.getConnection("jdbc:mysql://localhost:3308/HOTEL", "root", "");
+			} catch (Exception exc) {
+				exc.printStackTrace();
+			}
 		}
 	}
 	
@@ -103,12 +101,21 @@ public class HotelSQLProcedures {
 	public ResultSet getAvailableRooms(Date in, Date out, int price)   {
 		ResultSet rs = null;
 		 try { 
+			 /*
+			   PreparedStatement pst = 
+					   myConn.prepareStatement("select rID, ROOMTYPE.roomType, price, avg(stars) as stars"
+					   		+ " from ROOMTYPE natural join ROOM natural join RATING where price<?"
+					   		+ " and rID not in (select rID from RESERVATION where (? between beginDate and endDate) "
+					   		+ "or (? between beginDate and endDate) or (? >= beginDate and ? <= endDate))"
+					   		+ "group by rID");
+			   */
 			   PreparedStatement pst = 
 					   myConn.prepareStatement("select rID, ROOMTYPE.roomType, price, avg(cast(stars AS DOUBLE)) stars"
 					   		+ " from ROOMTYPE natural join ROOM left outer join RATING using(rID) where price<?"
 					   		+ " and rID not in (select rID from RESERVATION where (? between beginDate and endDate) "
 					   		+ "or (? between beginDate and endDate) or (? >= beginDate and ? <= endDate))"
 					   		+ "group by rID");
+			 
 			   pst.setDouble(1, price);
 			   pst.setDate(2, in);
 			   pst.setDate(3, out);
@@ -210,7 +217,7 @@ public class HotelSQLProcedures {
 	public ResultSet getReservedRooms(int cID) {
 		ResultSet rs = null;
 		try {
-			PreparedStatement pst = myConn.prepareStatement("SELECT * FROM RESERVATION WHERE cID = ?");
+			PreparedStatement pst = myConn.prepareStatement("SELECT rID, beginDate, endDate FROM RESERVATION WHERE cID = ?");
 			pst.setInt(1, cID);
 			ResultSet r = pst.executeQuery();
 			rs = r;
