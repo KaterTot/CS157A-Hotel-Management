@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.*;
 
-import com.sun.xml.sp.ParseException;
+
 
 public class HotelCustomerScreen {
 JFrame frame;
@@ -361,7 +361,7 @@ JFrame input;
 							   String ppNight = String.valueOf(rs.getDouble("price"));
 							   d[row][col] = ppNight;
 							   col ++ ;
-							   String stars = String.valueOf(rs.getInt("stars"));
+							   String stars = String.valueOf(rs.getDouble("stars"));
 							   d[row][col] = stars;
 							   col ++ ;
 							   row ++;

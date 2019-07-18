@@ -1,3 +1,9 @@
 	cust1	pass	1234-1234-1234-1234
 	cust2	anotherpass	0123-0123-0123-0123
 	cust3	yetanotherpass	\N
+	olga	olga	7654-3433-2222-1234
+	borislav	password	0367-2364-6655-1990
+	john	jon	0123-3434-4424-6644
+	mike2000	2000	2343-6745-7675-3333
+	ferret	frt	0987-2343-3333-5326
+	kot	tok	\N
