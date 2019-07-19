@@ -153,8 +153,8 @@ public class HotelManagerScreen {
 
 				if(username.isEmpty() || password.isEmpty()) {
 					JOptionPane.showMessageDialog(frame, "Please enter all required information");
-					user.setText("");
-					pass.setText("");
+					u.setText("");
+					p.setText("");
 				}
 				else {
 					int ret = pr.addManager(username, password);
@@ -166,7 +166,7 @@ public class HotelManagerScreen {
 					else {
 						frame.setVisible(false);
 						HotelManagerScreen screen = new HotelManagerScreen();
-						screen.createScreen();
+						screen.confirmAddDelete("New manager", "added to");
 					}
 				}
 			}
@@ -222,14 +222,19 @@ public class HotelManagerScreen {
 
 				if(username.isEmpty()) {
 					JOptionPane.showMessageDialog(frame, "Please enter all required information");
-					user.setText("");
+					u.setText("");
 				}
 				else {
-					pr.deleteManager(username);
+					int res = pr.deleteManager(username);
+					if(res > 0)   {
 					frame.setVisible(false);
 					HotelManagerScreen screen = new HotelManagerScreen();
-					screen.createScreen();
-
+					screen.confirmAddDelete("The manager", "deleted from");
+					}
+					else {
+						JOptionPane.showMessageDialog(frame, "The manager you entered does not exist in database");
+						u.setText("");
+					}
 				}
 			}
 		});
@@ -283,18 +288,18 @@ public class HotelManagerScreen {
 
 				if(roomType.isEmpty()) {
 					JOptionPane.showMessageDialog(frame, "Please enter all required information");
-					user.setText("");
+					u.setText("");
 				}
 				else {
 					int ret = pr.addRoom(roomType);
 					if(ret == 1452)   {
 						JOptionPane.showMessageDialog(frame, "The room type does not exist. Please add an existing room type.");
-						user.setText("");
+						u.setText("");
 					}
 					else {
 						frame.setVisible(false);
 						HotelManagerScreen screen = new HotelManagerScreen();
-						screen.createScreen();
+						screen.confirmAddDelete("The room", "added to the database");
 					}
 				}
 			}
@@ -342,10 +347,61 @@ public class HotelManagerScreen {
 			}
 		});
 
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String rID = u.getText();
+				HotelSQLProcedures pr = new HotelSQLProcedures();
+				if(rID.isEmpty()) {
+					JOptionPane.showMessageDialog(frame, "Please enter all required information");
+					u.setText("");
+				}
+				else {
+				   	int res = pr.deleteRoom(Integer.parseInt(rID));
+				   	if(res > 0)   {
+			     	frame.setVisible(false);
+				    HotelManagerScreen screen = new HotelManagerScreen();
+				    screen.confirmAddDelete("The room", "removed from");
+				   	}
+				   	else {
+				   		JOptionPane.showMessageDialog(frame, "The room number you entered does not exist in database");
+						u.setText("");
+				   	}
+				}
+			}
+		});
+		
 		frame.add(finalPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
 	}
 
+	public void confirmAddDelete(String subject, String operation)   {
+		frame = new JFrame("Manager Screen");
+		frame.setPreferredSize(new Dimension(2000,2000));
+		JLabel label = new JLabel(subject + " has been " + operation + " database");
+		label.setFont(new Font("Serif", Font.PLAIN, 22));
+		JButton button = new JButton("Main Menu");
+		JPanel lPanel = new JPanel();
+		lPanel.setMaximumSize(new Dimension(800, 50));
+		lPanel.add(label);
+		JPanel finalPanel = new JPanel();
+		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
+		finalPanel.setLayout(boxlayout);
+		finalPanel.add(lPanel);
+		finalPanel.add(button);
+		
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelManagerScreen screen = new HotelManagerScreen();
+				screen.createScreen();
+			}
+		});
+		
+		frame.add(finalPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+	    frame.setVisible(true);
+	}
 }
