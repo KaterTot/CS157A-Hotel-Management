@@ -144,13 +144,13 @@ public class HotelSQLProcedures {
 	public void insertReservation(int rID, Date in, Date out, int cID)   {
 		 try {
 			   PreparedStatement pst = 
-					   myConn.prepareStatement("insert into RESERVATION (cID, rID, beginDate, endDate) values(?,?,?,?)");
+					   myConn.prepareStatement("insert into RESERVATION (cID, rID, beginDate, endDate, updateAt) values(?,?,?,?,?)");
 			   pst.setInt(1, cID);
 			   pst.setInt(2, rID);
 			   pst.setDate(3, in);
 			   pst.setDate(4, out);
-	
-			  pst.executeUpdate();
+	                   pst.setDate(5, new java.sql.Date(System.currentTimeMillis()));
+		           pst.executeUpdate();
 			   }
 			   catch (SQLException exc) {
 					System.out.println("An error occured. Error: " + exc.getMessage());
