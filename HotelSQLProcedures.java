@@ -55,13 +55,16 @@ public class HotelSQLProcedures {
 		   return 0;
 	}
 	
-	public void addManager(String uName, String password) {
+	public int addManager(String uName, String password) {
 		try {
 			PreparedStatement pst = myConn.prepareStatement("INSERT INTO MANAGER (uNAME, pWORD) values(?, ?)");
 			pst.setString(1, uName);
 			pst.setString(2, password);
+			pst.executeUpdate();
+			return 1;
 		} catch (SQLException exc) {
-			exc.printStackTrace();
+			int err = exc.getErrorCode();
+			return err;
 		}
 	}
 	
@@ -166,7 +169,7 @@ public class HotelSQLProcedures {
 		 try {
 	
 			   PreparedStatement pst = 
-					   myConn.prepareStatement("delete from RESERVATION where resID = ? and cID = ?");
+					   myConn.prepareStatement("delete from RESERVATION where rID = ? and cID = ?");
 			   pst.setInt(1, rID);
 			   pst.setInt(2, cID);
 			   int num = pst.executeUpdate();

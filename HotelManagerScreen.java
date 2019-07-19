@@ -145,11 +145,39 @@ public class HotelManagerScreen {
 			}
 		});
 		
+		button.addActionListener(new ActionListener()  {
+			public void actionPerformed(ActionEvent e)   {
+				String username = u.getText();
+				String password = p.getText();
+				HotelSQLProcedures pr = new HotelSQLProcedures();
+
+				if(username.isEmpty() || password.isEmpty()) {
+					JOptionPane.showMessageDialog(frame, "Please enter all required information");
+					user.setText("");
+					pass.setText("");
+				}
+				else {
+					int ret = pr.addManager(username, password);
+					if(ret == 1062)   {
+						JOptionPane.showMessageDialog(frame, "The user with this username already exists as a manager. Please choose a different username");
+						user.setText("");
+						pass.setText("");
+					}
+					else {
+						frame.setVisible(false);
+						HotelManagerScreen screen = new HotelManagerScreen();
+						screen.createScreen();
+					}
+				}
+			}
+		});
+		
 		frame.add(finalPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 	    frame.setVisible(true);
 	}
+	
 	
 	public void deleteManager()   {
 		frame = new JFrame("Manager Screen");
@@ -276,4 +304,5 @@ public class HotelManagerScreen {
 		frame.pack();
 	    frame.setVisible(true);
 	}
+	
 }
