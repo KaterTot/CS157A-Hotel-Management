@@ -72,6 +72,7 @@ public class HotelSQLProcedures {
 		try {
 			PreparedStatement pst = myConn.prepareStatement("DELETE FROM MANAGER WHERE uNAME=?");
 			pst.setString(1, uName);
+			pst.executeUpdate();
 		} catch (SQLException exc) {
 			exc.printStackTrace();
 		}
