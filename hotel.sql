@@ -57,6 +57,7 @@ CREATE TABLE RESERVATION
  rID INT,
  beginDate DATE,
  endDate DATE,
+ updateAt DATE,
  PRIMARY KEY(resID),
  FOREIGN KEY(cID) REFERENCES CUSTOMER(cID) on delete cascade, 
  FOREIGN KEY(rID) REFERENCES ROOM(rID) on delete cascade 
