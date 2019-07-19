@@ -88,7 +88,7 @@ FOR EACH ROW
 BEGIN
      IF CURDATE() < OLD.beginDate THEN
   	UPDATE room SET numRented = numRented - 1 WHERE old.rID = room.rID;
-	INSERT INTO cancellation(canclID, rID, cID, cancellationDate) VALUES (old.resID, old.rID, old.cID, current_timestamp);
+	INSERT INTO cancellation(rID, cID, cancellationDate) VALUES (old.rID, old.cID, current_timestamp);
     END IF; 	
 END//
 DELIMITER ; 
