@@ -78,12 +78,15 @@ public class HotelSQLProcedures {
 		}
 	}
 	
-	public void addRoom(String roomType) {
+	public int addRoom(String roomType) {
 		try {
 			PreparedStatement pst = myConn.prepareStatement("INSERT INTO ROOM (roomType, numRented) values(?, 0)");
 			pst.setString(1, roomType);
+			pst.executeUpdate();
+			return 1;
 		} catch (SQLException exc) {
-			exc.printStackTrace();
+			int err = exc.getErrorCode();
+			return err;
 		}
 	}
 	

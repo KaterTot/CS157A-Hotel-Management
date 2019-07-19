@@ -275,6 +275,30 @@ public class HotelManagerScreen {
 				screen.createScreen();
 			}
 		});
+		
+		button.addActionListener(new ActionListener()  {
+			public void actionPerformed(ActionEvent e)   {
+				String roomType = u.getText();
+				HotelSQLProcedures pr = new HotelSQLProcedures();
+
+				if(roomType.isEmpty()) {
+					JOptionPane.showMessageDialog(frame, "Please enter all required information");
+					user.setText("");
+				}
+				else {
+					int ret = pr.addRoom(roomType);
+					if(ret == 1452)   {
+						JOptionPane.showMessageDialog(frame, "The room type does not exist. Please add an existing room type.");
+						user.setText("");
+					}
+					else {
+						frame.setVisible(false);
+						HotelManagerScreen screen = new HotelManagerScreen();
+						screen.createScreen();
+					}
+				}
+			}
+		});
 
 		frame.add(finalPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
