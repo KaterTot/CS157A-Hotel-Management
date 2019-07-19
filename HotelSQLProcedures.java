@@ -93,14 +93,14 @@ public class HotelSQLProcedures {
 		}
 	}
 	
-	public int createAccount(String uName, String pass, int card)   {
+	public int createAccount(String uName, String pass, String card)   {
 		 try {
 			   PreparedStatement pst = 
 					   myConn.prepareStatement("insert into CUSTOMER (uNAME, pWORD, CreditCard) values(?,?,?)");
 			   pst.setString(1, uName);
 			   pst.setString(2, pass);
-			   pst.setInt(3, card);
-	    		  pst.executeUpdate();
+			   pst.setString(3, card);
+	    		   pst.executeUpdate();
 	    		  return 1;
 			   }
 			   catch (SQLException exc) {
