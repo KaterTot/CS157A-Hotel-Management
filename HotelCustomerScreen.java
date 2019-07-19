@@ -325,6 +325,8 @@ JFrame input;
 				   String sDate = start.getText();
 				   String en = end.getText();
 				   String p = pr.getText();
+				   Date inDate = Date.valueOf(sDate);//converting string into sql date  
+				   Date outDate = Date.valueOf(en);
 				   if(sDate.isEmpty() || en.isEmpty() || p.isEmpty())   {
 					   JOptionPane.showMessageDialog(input,"Please enter all required information");
 				   }
@@ -332,14 +334,16 @@ JFrame input;
 					   JOptionPane.showMessageDialog(input,"Check-out date must be later than check-in date");
 					   end.setText("");
 				   }
+				    else if(inDate.compareTo(new java.sql.Date(System.currentTimeMillis()) ) < 0) {
+					   JOptionPane.showMessageDialog(input,"You cannot make reservations for past dates");
+					   start.setText("");
+				   }
 				   else {
 					input.setVisible(false);   
-					int price = Integer.parseInt(pr.getText());
-					Date inDate = Date.valueOf(sDate);//converting string into sql date  
-					Date outDate = Date.valueOf(en);
-				    HotelSQLProcedures proc = new HotelSQLProcedures();
-				    ResultSet rs = proc.getAvailableRooms(inDate,  outDate, price);
-				    int count = 0;
+					int price = Integer.parseInt(pr.getText());	
+				        HotelSQLProcedures proc = new HotelSQLProcedures();
+				        ResultSet rs = proc.getAvailableRooms(inDate,  outDate, price);
+				        int count = 0;
 					   int row = 0;
 					   int col = 0;
 					   try {
