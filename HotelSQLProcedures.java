@@ -158,7 +158,7 @@ public class HotelSQLProcedures {
 		 ResultSet rs = null;
 		 try {
 			   PreparedStatement pst = 
-					   myConn.prepareStatement("select * from RESERVATION where cID = ?");
+					   myConn.prepareStatement("select * from RESERVATION where cID = ? and beginDate >= CURDATE()");
 			   pst.setInt(1, cID);
 			   ResultSet r = pst.executeQuery();
 			   rs = r;
