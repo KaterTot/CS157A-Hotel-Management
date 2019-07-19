@@ -64,7 +64,7 @@ CREATE TABLE RESERVATION
 
 DROP TABLE IF EXISTS CANCELLATION;
 CREATE TABLE CANCELLATION
-(canclID INT,
+(canclID INT AUTO_INCREMENT,
  rID INT,
  cID INT,
  cancellationDate timestamp not null on update current_timestamp,
@@ -86,8 +86,10 @@ CREATE TRIGGER cancelReservation
 AFTER DELETE ON reservation 
 FOR EACH ROW
 BEGIN
-	UPDATE room SET numRented = numRented - 1 WHERE old.rID = room.rID;
+     IF CURDATE() < OLD.beginDate THEN
+  	UPDATE room SET numRented = numRented - 1 WHERE old.rID = room.rID;
 	INSERT INTO cancellation(canclID, rID, cID, cancellationDate) VALUES (old.resID, old.rID, old.cID, current_timestamp);
+    END IF; 	
 END//
 DELIMITER ; 
 
