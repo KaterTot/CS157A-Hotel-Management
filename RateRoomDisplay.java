@@ -14,6 +14,13 @@ public class RateRoomDisplay {
    public void displayPastReservations(String[][] rooms, String[] col,int cID, ArrayList<String> list)   {
 	   frame = new JFrame("Display Screen");
 	   frame.setPreferredSize(new Dimension(2000,2000));
+	   
+	   JLabel upLabel = new JLabel("You can rate any of the following rooms:");
+	   upLabel.setFont(new Font("Serif", Font.PLAIN, 22));
+	   JPanel nPanel = new JPanel();
+	   nPanel.setMaximumSize(new Dimension(1000, 80));
+	   nPanel.add(upLabel);
+	   
 	   JLabel label = new JLabel("Please enter the room number of the room you wish to rate");
 	   JLabel ratingLabel = new JLabel("Please enter a number from 1-5");
 	   JTextField resField = new JTextField();
@@ -63,6 +70,7 @@ public class RateRoomDisplay {
     	   }
        });
        
+       frame.add(nPanel, BorderLayout.NORTH);
        frame.add(sp, BorderLayout.CENTER);
        frame.add(panel, BorderLayout.PAGE_END); 
        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
