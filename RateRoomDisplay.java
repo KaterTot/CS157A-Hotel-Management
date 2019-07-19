@@ -1,5 +1,5 @@
 import javax.swing.*;
-
+import java.util.ArrayList;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -11,7 +11,7 @@ public class RateRoomDisplay {
 	JFrame frame;
 	JFrame confirm;
    
-   public void displayPastReservations(String[][] rooms, String[] col,int cID)   {
+   public void displayPastReservations(String[][] rooms, String[] col,int cID, ArrayList<String> list)   {
 	   frame = new JFrame("Display Screen");
 	   frame.setPreferredSize(new Dimension(2000,2000));
 	   JLabel label = new JLabel("Please enter the room number of the room you wish to rate");
@@ -38,13 +38,20 @@ public class RateRoomDisplay {
        
        button.addActionListener(new ActionListener() {
     	   public void actionPerformed(ActionEvent e) {
-    		   frame.setVisible(false);
+		   String st = resField.getText();
     		   int rID = Integer.parseInt(resField.getText());
     		   int stars = Integer.parseInt(rating.getText());
     		   HotelSQLProcedures proc = new HotelSQLProcedures();
-    		   proc.rateRoom(cID, rID, stars);
-    		   RateRoomDisplay disp = new RateRoomDisplay();
-    		   disp.ratingConfirmScreen(rID, cID);
+		   if(list.contains(st)) {
+    		     proc.rateRoom(cID, rID, stars);
+		     frame.setVisible(false);
+    		     RateRoomDisplay disp = new RateRoomDisplay();
+    		     disp.ratingConfirmScreen(rID, cID);
+		   }
+		    else {
+    		      JOptionPane.showMessageDialog(frame, "The room number you entered is invalid");
+    		      resField.setText("");
+    		   }
     	   }
        });
        
