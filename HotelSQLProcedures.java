@@ -241,4 +241,21 @@ public class HotelSQLProcedures {
 		return rs;
 	}
 	
+	// Return the name and credit card number of the customers who made and cancelled reservations
+	// at least three times in the last month. (let’s charge them extra money!)
+	public ResultSet getUnreliableCustomers() {
+		ResultSet rs = null;
+		try {
+			PreparedStatement pst = myConn.prepareStatement(
+					"select uNAME, CreditCard from CUSTOMER natural join CANCELLATION"
+					+ "where cancellationDate between NOW() - INTERVAL 30 DAY and NOW()" 
+					+ "group by cID having count(*)>=3");
+			ResultSet r = pst.executeQuery();
+			  rs = r;
+		} catch (SQLException exc) {
+			System.out.println("An error occured. Error: " + exc.getMessage());
+		}
+		return rs;
+	}
+	
 }
