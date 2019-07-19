@@ -14,6 +14,12 @@ public class HotelRoomDisplay {
 	   frame = new JFrame("Start Screen");
 	   frame.setPreferredSize(new Dimension(2000,2000));
 	   
+	   JLabel upLabel = new JLabel("You have the following reservations at this time:");
+	   upLabel.setFont(new Font("Serif", Font.PLAIN, 22));
+	   JPanel nPanel = new JPanel();
+	   nPanel.setMaximumSize(new Dimension(1000, 80));
+	   nPanel.add(upLabel);
+	   
 	   JLabel label = new JLabel("Please select the the Reservation ID that you would like to cancel");
 	   JTextField field = new JTextField();
 	   field.setPreferredSize(new Dimension(100, 20));
@@ -21,19 +27,19 @@ public class HotelRoomDisplay {
 	   JButton back = new JButton("Back");
 	   
 	   JTable j = new JTable(data, col); 
-       j.setBounds(30, 40, 2000, 300); 
-       JScrollPane sp = new JScrollPane(j); 
-       sp.setMaximumSize(new Dimension(1000, 50));
-       sp.setPreferredSize(new Dimension(0, 50));
+           j.setBounds(30, 40, 2000, 300); 
+           JScrollPane sp = new JScrollPane(j); 
+           sp.setMaximumSize(new Dimension(1000, 50));
+           sp.setPreferredSize(new Dimension(0, 50));
   
-       JPanel panel = new JPanel();
-       panel.add(label);
-       panel.add(field);    
-       panel.add(button);
-       panel.add(back);
+           JPanel panel = new JPanel();
+           panel.add(label);
+           panel.add(field);    
+           panel.add(button);
+           panel.add(back);
        
-       back.addActionListener(new ActionListener() {
-    	   public void actionPerformed(ActionEvent e) {
+           back.addActionListener(new ActionListener() {
+    	       public void actionPerformed(ActionEvent e) {
     		   frame.setVisible(false);
     		   HotelCustomerScreen screen = new HotelCustomerScreen();
     		   screen.createScreen(cID);
@@ -58,6 +64,7 @@ public class HotelRoomDisplay {
     	   }
        });
        
+       frame.add(nPanel, BorderLayout.NORTH);
        frame.add(sp, BorderLayout.CENTER);
        frame.add(panel, BorderLayout.PAGE_END); 
 	   
@@ -69,6 +76,13 @@ public class HotelRoomDisplay {
    public void displayAvailableRooms(String[][] rooms, String[] col, Date in, Date out, int cID)   {
 	   frame = new JFrame("Display Screen");
 	   frame.setPreferredSize(new Dimension(2000,2000));
+	   
+	   JLabel upLabel = new JLabel("The following rooms are available for the dates you entered:");
+	   upLabel.setFont(new Font("Serif", Font.PLAIN, 22));
+	   JPanel nPanel = new JPanel();
+	   nPanel.setMaximumSize(new Dimension(1000, 80));
+	   nPanel.add(upLabel);
+	   
 	   JLabel label = new JLabel("Please select the room number you wish to book");
 	   JTextField field = new JTextField();
 	   field.setPreferredSize(new Dimension(100, 20));
@@ -105,6 +119,7 @@ public class HotelRoomDisplay {
     	   }
        });
        
+       frame.add(nPanel, BorderLayout.NORTH);
        frame.add(sp, BorderLayout.CENTER);
        frame.add(panel, BorderLayout.PAGE_END); 
        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
