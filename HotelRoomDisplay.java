@@ -14,7 +14,7 @@ public class HotelRoomDisplay {
 	   frame = new JFrame("Start Screen");
 	   frame.setPreferredSize(new Dimension(2000,2000));
 	   
-	   JLabel label = new JLabel("Please select the the room (Room ID) that you would like to cancel reservation for");
+	   JLabel label = new JLabel("Please select the the Reservation ID that you would like to cancel");
 	   JTextField field = new JTextField();
 	   field.setPreferredSize(new Dimension(100, 20));
 	   JButton button = new JButton("Cancel Reservation");
