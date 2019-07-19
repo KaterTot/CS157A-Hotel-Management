@@ -231,7 +231,7 @@ public class HotelSQLProcedures {
 	public ResultSet getReservedRooms(int cID) {
 		ResultSet rs = null;
 		try {
-			PreparedStatement pst = myConn.prepareStatement("SELECT rID, beginDate, endDate FROM RESERVATION WHERE cID = ?");
+			PreparedStatement pst = myConn.prepareStatement("SELECT distinct rID, beginDate, endDate FROM RESERVATION WHERE cID = ? group by rID");
 			pst.setInt(1, cID);
 			ResultSet r = pst.executeQuery();
 			rs = r;
