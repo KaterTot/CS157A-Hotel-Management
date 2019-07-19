@@ -1,4 +1,5 @@
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;  
@@ -233,11 +234,13 @@ JFrame input;
 			System.out.println(ex);
 		}
 		String[][] d = new String[count][3];
+		ArrayList<String> list = new ArrayList<>();
 		try {
 			rs.beforeFirst();
 			while(rs.next()) {
 				col = 0;
 				String rID = String.valueOf(rs.getInt("rID"));
+				list.add(rID);
 				d[row][col] = rID;
 				col ++ ;
 				String beginDate = String.valueOf(rs.getDate("beginDate"));
@@ -254,7 +257,7 @@ JFrame input;
 		}
 		String[] columns = {"Room Number", "Check In Date", "Check Out Date"};
 		RateRoomDisplay dis = new RateRoomDisplay();
-		dis.displayPastReservations(d, columns, cID);
+		dis.displayPastReservations(d, columns, cID, list);
 	}
 	
 	public void reserveInput(int cID)   {
