@@ -68,13 +68,16 @@ public class HotelSQLProcedures {
 		}
 	}
 	
-	public void deleteManager(String uName) {
+	public int deleteManager(String uName) {
+		int res = 0;
 		try {
 			PreparedStatement pst = myConn.prepareStatement("DELETE FROM MANAGER WHERE uNAME=?");
 			pst.setString(1, uName);
-			pst.executeUpdate();
+			res = pst.executeUpdate();
+			return res;
 		} catch (SQLException exc) {
 			exc.printStackTrace();
+			return 0;
 		}
 	}
 	
@@ -185,12 +188,15 @@ public class HotelSQLProcedures {
 		   }
 	}
 	
-	public void deleteRoom(int rID) {
+	public int deleteRoom(int rID) {
 		try {
 			PreparedStatement pst = myConn.prepareStatement("DELETE FROM ROOM WHERE rID=?");
 			pst.setInt(1, rID);
+			int res = pst.executeUpdate();
+			return res;
 		} catch (SQLException exc) {
 			exc.printStackTrace();
+			return 0;
 		}
 	}
 	
