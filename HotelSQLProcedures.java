@@ -166,7 +166,7 @@ public class HotelSQLProcedures {
 		 try {
 	
 			   PreparedStatement pst = 
-					   myConn.prepareStatement("delete from RESERVATION where rID = ? and cID = ?");
+					   myConn.prepareStatement("delete from RESERVATION where resID = ? and cID = ?");
 			   pst.setInt(1, rID);
 			   pst.setInt(2, cID);
 			   int num = pst.executeUpdate();
