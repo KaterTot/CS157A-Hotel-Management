@@ -233,7 +233,8 @@ JFrame input;
 		catch(Exception ex) {
 			System.out.println(ex);
 		}
-		String[][] d = new String[count][3];
+		//String[][] d = new String[count][3];
+		String[][] d = new String[count][1];
 		ArrayList<String> list = new ArrayList<>();
 		try {
 			rs.beforeFirst();
@@ -242,20 +243,21 @@ JFrame input;
 				String rID = String.valueOf(rs.getInt("rID"));
 				list.add(rID);
 				d[row][col] = rID;
-				col ++ ;
-				String beginDate = String.valueOf(rs.getDate("beginDate"));
-				d[row][col] = beginDate;
-				col ++ ;
-				String endDate = String.valueOf(rs.getDate("endDate"));
-				d[row][col] = endDate;
-				col ++ ;
+				//col ++ ;
+				//String beginDate = String.valueOf(rs.getDate("beginDate"));
+				//d[row][col] = beginDate;
+				//col ++ ;
+				//String endDate = String.valueOf(rs.getDate("endDate"));
+				//d[row][col] = endDate;
+				//col ++ ;
 				row ++;
 			}
 		}
 		catch(Exception ex) {
 			System.out.println(ex);
 		}
-		String[] columns = {"Room Number", "Check In Date", "Check Out Date"};
+		//String[] columns = {"Room Number", "Check In Date", "Check Out Date"};
+		String[] columns = {"Room Number"};
 		RateRoomDisplay dis = new RateRoomDisplay();
 		dis.displayPastReservations(d, columns, cID, list);
 	}

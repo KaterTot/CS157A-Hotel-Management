@@ -172,12 +172,12 @@ public class HotelSQLProcedures {
 		 return rs;
 	}
 	
-	public int cancelReservations(int cID, int rID)   {
+	public int cancelReservations(int cID, int resID)   {
 		 try {
 	
 			   PreparedStatement pst = 
-					   myConn.prepareStatement("delete from RESERVATION where rID = ? and cID = ?");
-			   pst.setInt(1, rID);
+					   myConn.prepareStatement("delete from RESERVATION where resID = ? and cID = ?");
+			   pst.setInt(1, resID);
 			   pst.setInt(2, cID);
 			   int num = pst.executeUpdate();
 			   return num;
@@ -231,7 +231,7 @@ public class HotelSQLProcedures {
 	public ResultSet getReservedRooms(int cID) {
 		ResultSet rs = null;
 		try {
-			PreparedStatement pst = myConn.prepareStatement("SELECT distinct rID, beginDate, endDate FROM RESERVATION WHERE cID = ? group by rID");
+			PreparedStatement pst = myConn.prepareStatement("SELECT distinct rID FROM RESERVATION WHERE cID = ? group by rID");
 			pst.setInt(1, cID);
 			ResultSet r = pst.executeQuery();
 			rs = r;
