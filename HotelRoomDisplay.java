@@ -102,12 +102,24 @@ public class HotelRoomDisplay {
        
        button.addActionListener(new ActionListener() {
     	   public void actionPerformed(ActionEvent e) {
-    		   frame.setVisible(false);
-    		   int rID = Integer.parseInt(field.getText());
-    		   HotelSQLProcedures proc = new HotelSQLProcedures();
-    		   proc.insertReservation(rID, in, out, cID);
-    		   HotelRoomDisplay disp = new HotelRoomDisplay();
-    		   disp.registrationConfirmScreen(rID, cID);
+    		   String input = field.getText();
+    		   if(input.isEmpty())   {
+    			   JOptionPane.showMessageDialog(frame,  "Please enter the room number you wish to book");
+    		   }
+    		   else {
+    	     	   int rID = Integer.parseInt(field.getText());
+    		       HotelSQLProcedures proc = new HotelSQLProcedures();
+    		       int res = proc.insertReservation(rID, in, out, cID);
+    		       if(res > 0)   {
+    		      	   frame.setVisible(false);
+    		           HotelRoomDisplay disp = new HotelRoomDisplay();
+    		           disp.registrationConfirmScreen(rID, cID);
+    		       }
+    		       else   {
+    		      	   JOptionPane.showMessageDialog(frame,  "You have entered an invalid room number. Please try again");
+    		      	   field.setText("");
+    		       }
+    		   }
     	   }
        });
        
