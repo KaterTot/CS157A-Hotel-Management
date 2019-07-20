@@ -232,8 +232,7 @@ public class HotelStartScreen {
 					conf.setText("");
 				}
 				else {
-					int cardNumber = Integer.parseInt(cardNum);
-					int ret = pr.createAccount(username, password, cardNumber);
+					int ret = pr.createAccount(username, password, cardNum);
 					if(ret == 1062)   {
 						JOptionPane.showMessageDialog(reg, "The user with this username already exists. Please choose a different username");
 						user.setText("");
