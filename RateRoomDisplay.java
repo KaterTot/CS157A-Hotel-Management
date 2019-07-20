@@ -66,7 +66,7 @@ public class RateRoomDisplay {
     	   public void actionPerformed(ActionEvent e) {
     		   frame.setVisible(false);
     		   HotelCustomerScreen screen = new HotelCustomerScreen();
-    		   screen.reserveInput(cID);
+    		   screen.createScreen(cID);
     	   }
        });
        
