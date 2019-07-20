@@ -213,6 +213,7 @@ public class HotelSQLProcedures {
 					"UPDATE ROOMTYPE SET price=? WHERE ROOMTYPE.roomType = (SELECT roomType FROM ROOM WHERE rID=?)");
 			pst.setInt(1, price);
 			pst.setInt(2, rID);
+			pst.executeUpdate();
 		} catch (SQLException exc) {
 			exc.printStackTrace();
 		}

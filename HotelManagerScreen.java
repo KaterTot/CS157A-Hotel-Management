@@ -52,6 +52,17 @@ public class HotelManagerScreen {
 		remPanel.add(remRoom);
 		remPanel.add(Box.createHorizontalStrut(50));
 		remPanel.add(remButton);
+		
+		JLabel badCustomer = new JLabel("Show bad customers");
+		JButton badCustButton = new JButton("Show");
+		JPanel badCustPanel = new JPanel();
+		badCustPanel.setMaximumSize(new Dimension(500, 50));
+		badCustPanel.add(Box.createHorizontalStrut(20));
+		badCustPanel.add(badCustomer);
+		badCustPanel.add(Box.createHorizontalStrut(50));
+		badCustPanel.add(badCustButton);
+		
+		
 
 		JPanel finalPanel = new JPanel();
 		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
@@ -62,6 +73,7 @@ public class HotelManagerScreen {
 		finalPanel.add(delPanel);
 		finalPanel.add(addRoomPanel);
 		finalPanel.add(remPanel);
+		finalPanel.add(badCustPanel);
 
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
