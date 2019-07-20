@@ -62,6 +62,12 @@ public class HotelManagerScreen {
 		badCustPanel.add(Box.createHorizontalStrut(50));
 		badCustPanel.add(badCustButton);
 		
+		JButton logOutButton = new JButton("Log Out");
+		JPanel logOutPanel = new JPanel();
+		logOutPanel.setMaximumSize(new Dimension(500, 50));
+		logOutPanel.add(Box.createHorizontalStrut(50));
+		logOutPanel.add(logOutButton);
+		
 		
 
 		JPanel finalPanel = new JPanel();
@@ -74,6 +80,7 @@ public class HotelManagerScreen {
 		finalPanel.add(addRoomPanel);
 		finalPanel.add(remPanel);
 		finalPanel.add(badCustPanel);
+		finalPanel.add(logOutPanel);
 
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -104,6 +111,14 @@ public class HotelManagerScreen {
 				frame.setVisible(false);
 				HotelManagerScreen screen = new HotelManagerScreen();
 				screen.deleteRoom();
+			}
+		});
+		
+		logOutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelStartScreen screen = new HotelStartScreen();
+				screen.createScreen();
 			}
 		});
 
