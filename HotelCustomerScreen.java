@@ -69,6 +69,12 @@ JFrame input;
 		ratePanel.add(Box.createHorizontalStrut(50));
 		ratePanel.add(rateButton);
 		
+		JButton logOutButton = new JButton("Log Out");
+		JPanel logOutPanel = new JPanel();
+		logOutPanel.setMaximumSize(new Dimension(500, 50));
+		logOutPanel.add(Box.createHorizontalStrut(50));
+		logOutPanel.add(logOutButton);
+		
 		JPanel finalPanel = new JPanel();
 		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
 		finalPanel.setLayout(boxlayout);
@@ -79,6 +85,7 @@ JFrame input;
 		finalPanel.add(addRoomPanel);
 		finalPanel.add(remPanel);
 		finalPanel.add(ratePanel);
+		finalPanel.add(logOutPanel);
 		
 		bookButton.addActionListener(new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
@@ -143,6 +150,14 @@ JFrame input;
 				frame.setVisible(false);
 				HotelCustomerScreen screen = new HotelCustomerScreen();
 				screen.rateRoom(cID);
+			}
+		});
+		
+		logOutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelStartScreen screen = new HotelStartScreen();
+				screen.createScreen();
 			}
 		});
 		
