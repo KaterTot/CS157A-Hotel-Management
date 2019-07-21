@@ -283,4 +283,18 @@ public class HotelSQLProcedures {
 	public int archiveReservations(Date date)   {
 			return 0;
 		}
+	
+	public ResultSet getArchivedReservations()   {
+			ResultSet rs = null;
+			try {
+				PreparedStatement pst = myConn.prepareStatement(
+						"select * from ARCHIVE");
+				ResultSet r = pst.executeQuery();
+				  rs = r;
+		      }
+			catch (SQLException exc) {
+				System.out.println("An error occured. Error: " + exc.getMessage());
+			}
+			return rs;
+	}
 }
