@@ -657,7 +657,7 @@ public class HotelManagerScreen {
 						frame.setPreferredSize(new Dimension(2000,2000));
 						JLabel label = new JLabel("The price of room number " + rID + " has been changed to " + price);
 						label.setFont(new Font("Serif", Font.PLAIN, 22));
-						JButton button = new JButton("Main Menu");
+						JButton button = new JButton("Ok");
 						JPanel lPanel = new JPanel();
 						lPanel.setMaximumSize(new Dimension(800, 50));
 						lPanel.add(label);
@@ -671,7 +671,7 @@ public class HotelManagerScreen {
 							public void actionPerformed(ActionEvent e) {
 								frame.setVisible(false);
 								HotelManagerScreen screen = new HotelManagerScreen();
-								screen.createScreen();
+								screen.changePrice();
 							}
 						});
 
