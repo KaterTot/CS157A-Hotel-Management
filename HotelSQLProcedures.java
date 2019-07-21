@@ -252,8 +252,8 @@ public class HotelSQLProcedures {
 		try {
 			PreparedStatement pst = myConn.prepareStatement(
 					"select uNAME, CreditCard from CUSTOMER natural join CANCELLATION"
-					+ "where cancellationDate between NOW() - INTERVAL 30 DAY and NOW()" 
-					+ "group by cID having count(*)>=3");
+					+ " where cancellationDate between NOW() - INTERVAL 30 DAY and NOW()" 
+					+ " group by cID having count(*)>=3");
 			ResultSet r = pst.executeQuery();
 			  rs = r;
 		} catch (SQLException exc) {
