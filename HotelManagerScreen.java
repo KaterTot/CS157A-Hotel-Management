@@ -756,12 +756,100 @@ public class HotelManagerScreen {
 					HotelSQLProcedures pr = new HotelSQLProcedures();
 					int res = pr.archiveReservations(Date.valueOf(st));
 					if(res > 0)  {
-		         	frame.setVisible(false);
+						frame.setVisible(false);
+		         	                HotelManagerScreen scr = new HotelManagerScreen();
+		         	                scr.archiveConfirm();
 					}
 					else   {
 						JOptionPane.showMessageDialog(frame, "Your request could not be completed at this time. Please verify that the input is in the correct format");
 					}
 				}
+			}
+		});
+		
+		frame.add(finalPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
+	public void archiveConfirm()   {
+		frame = new JFrame("Manager Screen");
+		frame.setPreferredSize(new Dimension(2000,2000));
+		
+		JLabel label = new JLabel("The reservations have been successfully archived!");
+		label.setFont(new Font("Serif", Font.PLAIN, 22));
+		JButton button = new JButton("See archived reservations");
+		JButton back = new JButton("Main Menu");
+		
+		JPanel lPanel = new JPanel();
+		lPanel.setMaximumSize(new Dimension(1000, 50));		
+		lPanel.add(label);
+		
+		JPanel bPanel = new JPanel();
+		bPanel.setMaximumSize(new Dimension(1000, 50));		
+		bPanel.add(button);
+		bPanel.add(back);
+		
+		JPanel finalPanel = new JPanel();
+		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
+		finalPanel.setLayout(boxlayout);
+		finalPanel.add(lPanel);
+		finalPanel.add(bPanel);
+		
+		back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelManagerScreen screen = new HotelManagerScreen();
+				screen.createScreen();
+			}
+		});
+		
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelSQLProcedures pr = new HotelSQLProcedures();
+				ResultSet rs = pr.getArchivedReservations();
+				int count = 0;
+				int row = 0;
+				int col = 0;
+				try {
+					while(rs.next()) {
+						count ++ ;
+					}
+				}
+				catch(Exception ex) {
+					System.out.println(ex);
+				}
+				String[][] d = new String[count][5];
+				try {
+					rs.beforeFirst();
+					while(rs.next()) {
+						col = 0;
+						String resID = String.valueOf(rs.getInt("resID"));
+						d[row][col] = resID;
+						col++;
+						String cID = String.valueOf(rs.getInt("cID"));
+						d[row][col] = cID;
+						col++;
+						String rID = String.valueOf(rs.getInt("rID"));
+						d[row][col] = rID;
+						col++;
+						String begin = String.valueOf(rs.getDate("beginDate"));
+						d[row][col] = begin;
+						col++;
+						String end = String.valueOf(rs.getDate("endDate"));
+						d[row][col] = end;
+						col++;
+						row ++;
+					}
+				}
+				catch(Exception ex) {
+					System.out.println(ex);
+				}
+				String[] columns = {"Reservation ID", "Customer ID", "Room ID", "Check-in Date", "Check-out Date"};
+				HotelRoomDisplay dis = new HotelRoomDisplay();
+				dis.displayArchivedReservations(d, columns);
 			}
 		});
 		
