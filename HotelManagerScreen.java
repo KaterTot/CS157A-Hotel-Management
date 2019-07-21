@@ -607,6 +607,12 @@ public class HotelManagerScreen {
 		JScrollPane sp = new JScrollPane(j); 
 		sp.setPreferredSize(new Dimension(0, 50));
 		
+		JLabel nLabel = new JLabel("The following rooms are currently in hotel database:");
+		nLabel.setFont(new Font("Serif", Font.PLAIN, 22));
+		JPanel nPanel = new JPanel();
+		nPanel.setMaximumSize(new Dimension(800, 50));
+		nPanel.add(nLabel);
+		
 		JLabel label = new JLabel("Please enter the room ID you would like to edit");
 		label.setFont(new Font("Serif", Font.PLAIN, 22));
 		JLabel rID = new JLabel("Room ID");
@@ -640,6 +646,7 @@ public class HotelManagerScreen {
 		JPanel finalPanel = new JPanel();
 		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
 		finalPanel.setLayout(boxlayout);
+		finalPanel.add(nPanel);		
 		finalPanel.add(sp);
 		finalPanel.add(lPanel);
 		finalPanel.add(uPanel);
