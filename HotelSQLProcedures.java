@@ -207,15 +207,17 @@ public class HotelSQLProcedures {
 		
 	}
 	
-	public void updateRoomPrice(int rID, int price) {
+	public int updateRoomPrice(int rID, int price) {
 		try {
 			PreparedStatement pst = myConn.prepareStatement(
 					"UPDATE ROOMTYPE SET price=? WHERE ROOMTYPE.roomType = (SELECT roomType FROM ROOM WHERE rID=?)");
 			pst.setInt(1, price);
 			pst.setInt(2, rID);
-			pst.executeUpdate();
+			int res = pst.executeUpdate();
+			return res;
 		} catch (SQLException exc) {
 			exc.printStackTrace();
+			return 0;
 		}
 	}
 	
@@ -254,6 +256,22 @@ public class HotelSQLProcedures {
 					"select uNAME, CreditCard from CUSTOMER natural join CANCELLATION"
 					+ " where cancellationDate between NOW() - INTERVAL 30 DAY and NOW()" 
 					+ " group by cID having count(*)>=3");
+			ResultSet r = pst.executeQuery();
+			  rs = r;
+		} catch (SQLException exc) {
+			System.out.println("An error occured. Error: " + exc.getMessage());
+		}
+		return rs;
+	}
+	
+	public ResultSet showRoomsAndPrices()
+	{
+		ResultSet rs = null;
+		try {
+			PreparedStatement pst = myConn.prepareStatement(
+					"select rID, roomType, price, numBeds, numRented, price FROM room natural join roomtype"
+					+ " where room.roomType = roomType.roomType" 
+					+ " group by rID");
 			ResultSet r = pst.executeQuery();
 			  rs = r;
 		} catch (SQLException exc) {

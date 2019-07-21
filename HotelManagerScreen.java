@@ -54,6 +54,15 @@ public class HotelManagerScreen {
 		remPanel.add(Box.createHorizontalStrut(50));
 		remPanel.add(remButton);
 
+		JLabel changePrice = new JLabel("Change a room price");
+		JButton changeButton = new JButton("Change Price");
+		JPanel changePanel = new JPanel();
+		changePanel.setMaximumSize(new Dimension(500, 50));
+		changePanel.add(Box.createHorizontalStrut(20));
+		changePanel.add(changePrice);
+		changePanel.add(Box.createHorizontalStrut(50));
+		changePanel.add(changeButton);
+		
 		JLabel badCustomer = new JLabel("Show bad customers");
 		JButton badCustButton = new JButton("Show");
 		JPanel badCustPanel = new JPanel();
@@ -80,6 +89,7 @@ public class HotelManagerScreen {
 		finalPanel.add(delPanel);
 		finalPanel.add(addRoomPanel);
 		finalPanel.add(remPanel);
+		finalPanel.add(changePanel);
 		finalPanel.add(badCustPanel);
 		finalPanel.add(logOutPanel);
 
@@ -112,6 +122,14 @@ public class HotelManagerScreen {
 				frame.setVisible(false);
 				HotelManagerScreen screen = new HotelManagerScreen();
 				screen.deleteRoom();
+			}
+		});
+		
+		changeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelManagerScreen screen = new HotelManagerScreen();
+				screen.changePrice();
 			}
 		});
 
@@ -259,7 +277,7 @@ public class HotelManagerScreen {
 		sp.setPreferredSize(new Dimension(0, 50));
 
 
-		JButton button = new JButton("Charge Customer");
+		//JButton button = new JButton("Charge Customer");
 		JButton back = new JButton("Back");
 		JPanel lPanel = new JPanel();
 		lPanel.setMaximumSize(new Dimension(800, 50));
@@ -267,7 +285,7 @@ public class HotelManagerScreen {
 		JPanel bPanel = new JPanel();
 		bPanel.setMaximumSize(new Dimension(500, 50));
 		bPanel.add(back);
-		bPanel.add(button);
+		//bPanel.add(button);
 
 		JPanel finalPanel = new JPanel();
 		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
@@ -507,6 +525,167 @@ public class HotelManagerScreen {
 				frame.setVisible(false);
 				HotelManagerScreen screen = new HotelManagerScreen();
 				screen.createScreen();
+			}
+		});
+
+		frame.add(finalPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
+	public void changePrice()
+	{
+		frame = new JFrame("Manager Screen");
+		frame.setPreferredSize(new Dimension(2000,2000));
+		
+		HotelSQLProcedures proc = new HotelSQLProcedures();
+		ResultSet rs = proc.showRoomsAndPrices();
+		int count = 0;
+		int row = 0;
+		int col = 0;
+		try {
+			while(rs.next()) {
+				count ++ ;
+			}
+		}
+		catch(Exception ex) {
+			System.out.println(ex);
+		}
+		String[][] d = new String[count][5];
+		ArrayList<String> list = new ArrayList<>();
+		try {
+			rs.beforeFirst();
+			while(rs.next()) {
+				col = 0;
+				String rID = rs.getString("rID");
+				list.add(rID);
+				d[row][col] = rID;
+				col++;
+				String roomType = rs.getString("roomType");
+				list.add(roomType);
+				d[row][col] = roomType;
+				col++;
+				String numBeds = rs.getString("numBeds");
+				list.add(numBeds);
+				d[row][col] = numBeds;
+				col++;
+				String numRented = rs.getString("numRented");
+				list.add(numRented);
+				d[row][col] = numRented;
+				col++;
+				String price = rs.getString("price");
+				list.add(price);
+				d[row][col] = price;
+				col++;
+				row ++;
+			}
+		}
+		catch(Exception ex) {
+			System.out.println(ex);
+		}
+		String[] columns = {"Room ID", "Room Type", "Number of Beds", "Number of Times Rented", "Price"};
+		
+		JTable j = new JTable(d, columns); 
+		j.setBounds(30, 40, 2000, 300); 
+		JScrollPane sp = new JScrollPane(j); 
+		sp.setPreferredSize(new Dimension(0, 50));
+		
+		JLabel label = new JLabel("Please enter the room ID you would like to edit");
+		label.setFont(new Font("Serif", Font.PLAIN, 22));
+		JLabel rID = new JLabel("Room ID");
+		JTextField u = new JTextField();
+		JLabel priceLab = new JLabel("Please enter the new price of the room");
+		priceLab.setFont(new Font("Serif", Font.PLAIN, 22));
+		JLabel price = new JLabel("Price");
+		JTextField p = new JTextField();
+		u.setPreferredSize(new Dimension(100, 20));
+		p.setPreferredSize(new Dimension(100, 20));
+		JButton button = new JButton("Change Price");
+		JButton back = new JButton("Back");
+		JPanel lPanel = new JPanel();
+		lPanel.setMaximumSize(new Dimension(800, 50));
+		lPanel.add(label);
+		JPanel uPanel = new JPanel();
+		uPanel.setMaximumSize(new Dimension(500, 50));
+		uPanel.add(rID);
+		uPanel.add(u);
+		JPanel pPanel = new JPanel();
+		pPanel.setMaximumSize(new Dimension(800, 50));
+		pPanel.add(priceLab);
+		JPanel prPanel = new JPanel();
+		prPanel.setMaximumSize(new Dimension(500, 50));
+		prPanel.add(price);
+		prPanel.add(p);
+		JPanel bPanel = new JPanel();
+		bPanel.setMaximumSize(new Dimension(500, 50));
+		bPanel.add(back);
+		bPanel.add(button);
+		JPanel finalPanel = new JPanel();
+		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
+		finalPanel.setLayout(boxlayout);
+		finalPanel.add(sp);
+		finalPanel.add(lPanel);
+		finalPanel.add(uPanel);
+		finalPanel.add(pPanel);
+		finalPanel.add(prPanel);
+		finalPanel.add(bPanel);
+
+		back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelManagerScreen screen = new HotelManagerScreen();
+				screen.createScreen();
+			}
+		});
+
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String rID = u.getText();
+				String price = p.getText();
+				HotelSQLProcedures pr = new HotelSQLProcedures();
+				if(rID.isEmpty() || price.isEmpty()) {
+					JOptionPane.showMessageDialog(frame, "Please enter all required information");
+					u.setText("");
+					p.setText("");
+				}
+				else {
+					int res = pr.updateRoomPrice(Integer.parseInt(rID), Integer.parseInt(price));
+					if(res > 0)   {
+						frame.setVisible(false);
+						frame = new JFrame("Manager Screen");
+						frame.setPreferredSize(new Dimension(2000,2000));
+						JLabel label = new JLabel("The price of room number " + rID + " has been changed to " + price);
+						label.setFont(new Font("Serif", Font.PLAIN, 22));
+						JButton button = new JButton("Main Menu");
+						JPanel lPanel = new JPanel();
+						lPanel.setMaximumSize(new Dimension(800, 50));
+						lPanel.add(label);
+						JPanel finalPanel = new JPanel();
+						BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
+						finalPanel.setLayout(boxlayout);
+						finalPanel.add(lPanel);
+						finalPanel.add(button);
+
+						button.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								frame.setVisible(false);
+								HotelManagerScreen screen = new HotelManagerScreen();
+								screen.createScreen();
+							}
+						});
+
+						frame.add(finalPanel);
+						frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						frame.pack();
+						frame.setVisible(true);
+					}
+					else {
+						JOptionPane.showMessageDialog(frame, "The room number you entered does not exist in database");
+						u.setText("");
+						p.setText("");
+					}
+				}
 			}
 		});
 
