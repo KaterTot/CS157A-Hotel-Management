@@ -287,13 +287,17 @@ public class HotelManagerScreen {
 		}
 		String[] columns = {"Customer Username", "Credit Card"};
 		
+		JLabel nLabel = new JLabel("The following customers have cancellations in the last month:");
+		nLabel.setFont(new Font("Serif", Font.PLAIN, 22));
+		JPanel nPanel = new JPanel();
+		nPanel.setMaximumSize(new Dimension(800, 50));
+		nPanel.add(nLabel);
+		
 		JTable j = new JTable(d, columns); 
 		j.setBounds(30, 40, 2000, 300); 
 		JScrollPane sp = new JScrollPane(j); 
 		sp.setPreferredSize(new Dimension(0, 50));
 
-
-		//JButton button = new JButton("Charge Customer");
 		JButton back = new JButton("Back");
 		JPanel lPanel = new JPanel();
 		lPanel.setMaximumSize(new Dimension(800, 50));
@@ -301,11 +305,11 @@ public class HotelManagerScreen {
 		JPanel bPanel = new JPanel();
 		bPanel.setMaximumSize(new Dimension(500, 50));
 		bPanel.add(back);
-		//bPanel.add(button);
 
 		JPanel finalPanel = new JPanel();
 		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
 		finalPanel.setLayout(boxlayout);
+		finalPanel.add(nPanel);
 		finalPanel.add(sp);
 		finalPanel.add(lPanel);
 		finalPanel.add(bPanel);
