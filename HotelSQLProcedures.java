@@ -280,4 +280,7 @@ public class HotelSQLProcedures {
 		return rs;
 	}
 	
+	public int archiveReservations(Date date)   {
+			return 0;
+		}
 }
