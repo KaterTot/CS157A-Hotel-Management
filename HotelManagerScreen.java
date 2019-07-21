@@ -71,14 +71,21 @@ public class HotelManagerScreen {
 		badCustPanel.add(badCustomer);
 		badCustPanel.add(Box.createHorizontalStrut(50));
 		badCustPanel.add(badCustButton);
+		
+		JLabel archLabel = new JLabel("Archive Reservations");
+		JButton archButton = new JButton("Archive");
+		JPanel archPanel = new JPanel();
+		archPanel.setMaximumSize(new Dimension(500, 50));
+		archPanel.add(Box.createHorizontalStrut(20));
+		archPanel.add(archLabel);
+		archPanel.add(Box.createHorizontalStrut(50));
+		archPanel.add(archButton);
 
 		JButton logOutButton = new JButton("Log Out");
 		JPanel logOutPanel = new JPanel();
 		logOutPanel.setMaximumSize(new Dimension(500, 50));
 		logOutPanel.add(Box.createHorizontalStrut(50));
 		logOutPanel.add(logOutButton);
-
-
 
 		JPanel finalPanel = new JPanel();
 		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
@@ -91,6 +98,7 @@ public class HotelManagerScreen {
 		finalPanel.add(remPanel);
 		finalPanel.add(changePanel);
 		finalPanel.add(badCustPanel);
+		finalPanel.add(archPanel);
 		finalPanel.add(logOutPanel);
 
 		addButton.addActionListener(new ActionListener() {
@@ -141,6 +149,14 @@ public class HotelManagerScreen {
 			}
 		});
 
+		archButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelManagerScreen screen = new HotelManagerScreen();
+				screen.archiveInput();
+			}
+		});
+		
 		logOutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
@@ -689,6 +705,66 @@ public class HotelManagerScreen {
 			}
 		});
 
+		frame.add(finalPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
+	public void archiveInput()   {
+		frame = new JFrame("Manager Screen");
+		frame.setPreferredSize(new Dimension(2000,2000));
+		
+		JLabel label = new JLabel("Please enter the cuttof date for archiving reservations (yyyy-mm-dd)");
+		label.setFont(new Font("Serif", Font.PLAIN, 22));
+		JButton button = new JButton("Archive reservations");
+		JButton back = new JButton("Back");
+		JTextField input = new JTextField();
+		input.setPreferredSize(new Dimension(100, 20));
+		JPanel lPanel = new JPanel();
+		lPanel.setMaximumSize(new Dimension(1000, 50));		
+		lPanel.add(label);
+		JPanel inputPanel = new JPanel();
+		inputPanel.setMaximumSize(new Dimension(500, 50));		
+		inputPanel.add(input);
+		JPanel finalPanel = new JPanel();
+		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
+		JPanel butPanel = new JPanel();
+		butPanel.setMaximumSize(new Dimension(500, 50));
+		butPanel.add(back);
+		butPanel.add(button);
+		finalPanel.setLayout(boxlayout);
+		finalPanel.add(lPanel);
+		finalPanel.add(inputPanel);
+		finalPanel.add(butPanel);
+		
+		back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelManagerScreen screen = new HotelManagerScreen();
+				screen.createScreen();
+			}
+		});
+		
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String st = input.getText();
+				if(st.isEmpty())   {
+					JOptionPane.showMessageDialog(frame, "Please enter the cuttof date");
+				}
+				else   {
+					HotelSQLProcedures pr = new HotelSQLProcedures();
+					int res = pr.archiveReservations(Date.valueOf(st));
+					if(res > 0)  {
+		         	frame.setVisible(false);
+					}
+					else   {
+						JOptionPane.showMessageDialog(frame, "Your request could not be completed at this time. Please verify that the input is in the correct format");
+					}
+				}
+			}
+		});
+		
 		frame.add(finalPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
