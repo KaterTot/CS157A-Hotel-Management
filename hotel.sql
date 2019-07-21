@@ -91,7 +91,7 @@ DELIMITER //
 CREATE PROCEDURE archiveReservation (IN archiveDate DATE)
 BEGIN
 	INSERT INTO ARCHIVE (resID, cID, rID, beginDate, endDate)
-		SELECT * FROM RESERVATION WHERE RESERVATION.updateAt < archiveDate;
+		SELECT resID, cID, rID, beginDate, endDate FROM RESERVATION WHERE RESERVATION.updateAt < archiveDate;
 	DELETE FROM RESERVATION WHERE RESERVATION.updateAt < archiveDate;
 	END //
 DELIMITER ;

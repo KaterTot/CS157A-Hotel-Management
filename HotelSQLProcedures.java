@@ -1,3 +1,4 @@
+import java.sql.CallableStatement;
 import java.sql.Connection;
 
 import java.sql.Date;
@@ -280,8 +281,16 @@ public class HotelSQLProcedures {
 		return rs;
 	}
 	
-	public int archiveReservations(Date date)   {
+	public int archiveReservations(Date date) {
+		try {
+			CallableStatement cs = myConn.prepareCall("{CALL archiveReservation(?)}");
+			cs.setDate(1, date);
+			boolean hasResult = cs.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
 			return 0;
+		}
+			return 1;
 		}
 	
 	public ResultSet getArchivedReservations()   {
