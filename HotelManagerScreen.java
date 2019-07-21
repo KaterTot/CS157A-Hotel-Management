@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class HotelManagerScreen {
 	JFrame frame;
@@ -52,7 +53,7 @@ public class HotelManagerScreen {
 		remPanel.add(remRoom);
 		remPanel.add(Box.createHorizontalStrut(50));
 		remPanel.add(remButton);
-		
+
 		JLabel badCustomer = new JLabel("Show bad customers");
 		JButton badCustButton = new JButton("Show");
 		JPanel badCustPanel = new JPanel();
@@ -61,14 +62,14 @@ public class HotelManagerScreen {
 		badCustPanel.add(badCustomer);
 		badCustPanel.add(Box.createHorizontalStrut(50));
 		badCustPanel.add(badCustButton);
-		
+
 		JButton logOutButton = new JButton("Log Out");
 		JPanel logOutPanel = new JPanel();
 		logOutPanel.setMaximumSize(new Dimension(500, 50));
 		logOutPanel.add(Box.createHorizontalStrut(50));
 		logOutPanel.add(logOutButton);
-		
-		
+
+
 
 		JPanel finalPanel = new JPanel();
 		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
@@ -113,7 +114,15 @@ public class HotelManagerScreen {
 				screen.deleteRoom();
 			}
 		});
-		
+
+		badCustButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelManagerScreen screen = new HotelManagerScreen();
+				screen.showBadCust();
+			}
+		});
+
 		logOutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
@@ -205,6 +214,81 @@ public class HotelManagerScreen {
 		frame.setVisible(true);
 	}
 
+	public void showBadCust()   {
+		frame = new JFrame("Manager Screen");
+		frame.setPreferredSize(new Dimension(2000,2000));
+		
+		HotelSQLProcedures proc = new HotelSQLProcedures();
+		ResultSet rs = proc.getUnreliableCustomers();
+		int count = 0;
+		int row = 0;
+		int col = 0;
+		try {
+			while(rs.next()) {
+				count ++ ;
+			}
+		}
+		catch(Exception ex) {
+			System.out.println(ex);
+		}
+		String[][] d = new String[count][2];
+		ArrayList<String> list = new ArrayList<>();
+		try {
+			rs.beforeFirst();
+			while(rs.next()) {
+				col = 0;
+				String user = rs.getString("uName");
+				list.add(user);
+				d[row][col] = user;
+				col++;
+				String cc = String.valueOf(rs.getInt("CreditCard"));
+				list.add(cc);
+				d[row][col] = cc;
+				col++;
+				row ++;
+			}
+		}
+		catch(Exception ex) {
+			System.out.println(ex);
+		}
+		String[] columns = {"Customer Username", "Credit Card"};
+		
+		JTable j = new JTable(d, columns); 
+		j.setBounds(30, 40, 2000, 300); 
+		JScrollPane sp = new JScrollPane(j); 
+		sp.setPreferredSize(new Dimension(0, 50));
+
+
+		JButton button = new JButton("Charge Customer");
+		JButton back = new JButton("Back");
+		JPanel lPanel = new JPanel();
+		lPanel.setMaximumSize(new Dimension(800, 50));
+
+		JPanel bPanel = new JPanel();
+		bPanel.setMaximumSize(new Dimension(500, 50));
+		bPanel.add(back);
+		bPanel.add(button);
+
+		JPanel finalPanel = new JPanel();
+		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
+		finalPanel.setLayout(boxlayout);
+		finalPanel.add(sp);
+		finalPanel.add(lPanel);
+		finalPanel.add(bPanel);
+
+		back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelManagerScreen screen = new HotelManagerScreen();
+				screen.createScreen();
+			}
+		});
+
+		frame.add(finalPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
+	}
 
 	public void deleteManager()   {
 		frame = new JFrame("Manager Screen");
@@ -254,9 +338,9 @@ public class HotelManagerScreen {
 				else {
 					int res = pr.deleteManager(username);
 					if(res > 0)   {
-					frame.setVisible(false);
-					HotelManagerScreen screen = new HotelManagerScreen();
-					screen.confirmAddDelete("The manager", "deleted from");
+						frame.setVisible(false);
+						HotelManagerScreen screen = new HotelManagerScreen();
+						screen.confirmAddDelete("The manager", "deleted from");
 					}
 					else {
 						JOptionPane.showMessageDialog(frame, "The manager you entered does not exist in database");
@@ -307,7 +391,7 @@ public class HotelManagerScreen {
 				screen.createScreen();
 			}
 		});
-		
+
 		button.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)   {
 				String roomType = u.getText();
@@ -383,20 +467,20 @@ public class HotelManagerScreen {
 					u.setText("");
 				}
 				else {
-				   	int res = pr.deleteRoom(Integer.parseInt(rID));
-				   	if(res > 0)   {
-			     	frame.setVisible(false);
-				    HotelManagerScreen screen = new HotelManagerScreen();
-				    screen.confirmAddDelete("The room", "removed from");
-				   	}
-				   	else {
-				   		JOptionPane.showMessageDialog(frame, "The room number you entered does not exist in database");
+					int res = pr.deleteRoom(Integer.parseInt(rID));
+					if(res > 0)   {
+						frame.setVisible(false);
+						HotelManagerScreen screen = new HotelManagerScreen();
+						screen.confirmAddDelete("The room", "removed from");
+					}
+					else {
+						JOptionPane.showMessageDialog(frame, "The room number you entered does not exist in database");
 						u.setText("");
-				   	}
+					}
 				}
 			}
 		});
-		
+
 		frame.add(finalPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
@@ -417,7 +501,7 @@ public class HotelManagerScreen {
 		finalPanel.setLayout(boxlayout);
 		finalPanel.add(lPanel);
 		finalPanel.add(button);
-		
+
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
@@ -425,10 +509,10 @@ public class HotelManagerScreen {
 				screen.createScreen();
 			}
 		});
-		
+
 		frame.add(finalPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
-	    frame.setVisible(true);
+		frame.setVisible(true);
 	}
 }
