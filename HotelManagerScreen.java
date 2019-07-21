@@ -241,7 +241,7 @@ public class HotelManagerScreen {
 				list.add(user);
 				d[row][col] = user;
 				col++;
-				String cc = String.valueOf(rs.getInt("CreditCard"));
+				String cc = rs.getString("CreditCard");
 				list.add(cc);
 				d[row][col] = cc;
 				col++;
