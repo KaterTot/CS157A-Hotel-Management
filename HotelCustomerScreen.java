@@ -52,13 +52,13 @@ JFrame input;
 		addRoomPanel.add(addRoomButton);
 		
 		JLabel remRoom = new JLabel("Choose best rooms for your budget");
-		JButton remButton = new JButton("Choose");
+		JButton dealsButton = new JButton("Choose");
 		JPanel remPanel = new JPanel();
 		remPanel.setMaximumSize(new Dimension(500, 50));
 		remPanel.add(Box.createHorizontalStrut(20));
 		remPanel.add(remRoom);
 		remPanel.add(Box.createHorizontalStrut(50));
-		remPanel.add(remButton);
+		remPanel.add(dealsButton);
 		
 		JLabel rateRoom = new JLabel("Rate a room you have already stayed in");
 		JButton rateButton = new JButton("Rate");
@@ -144,6 +144,42 @@ JFrame input;
 				   }
 			   }
 		   });
+		
+		dealsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelSQLProcedures screen = new HotelSQLProcedures();
+				ResultSet rs = screen.bestDeals(cID);
+				try {
+				frame.setVisible(false);
+				   int count = 0;
+				   int row = 0;
+				   int col = 0;
+				   while(rs.next())   {
+					   count ++ ;
+				   }
+				   rs.beforeFirst();
+				   String[][] d = new String[count][2];
+				   while(rs.next())   {
+					   col = 0;
+					   String rID = String.valueOf(rs.getInt("rID"));
+					   d[row][col] = rID;
+					   col ++ ;
+					   String cID = String.valueOf(rs.getDouble("st"));
+					   d[row][col] = cID;
+					   col ++ ;
+					   row ++;
+				   }
+				   String[] columns = {"Room ID", "Average Rating"};
+				   frame.setVisible(false);
+				   HotelRoomDisplay dis = new HotelRoomDisplay();
+				   dis.displayBestDeals(d, columns, cID);
+				}
+				 catch(SQLException ex)   {
+					   ex.getErrorCode();
+				   }
+			}
+		});
 		
 		rateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
