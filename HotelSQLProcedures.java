@@ -306,4 +306,23 @@ public class HotelSQLProcedures {
 			}
 			return rs;
 	}
+	
+	public ResultSet bestDeals(int cID)   {
+			ResultSet rs = null;
+			try {
+				PreparedStatement pst = myConn.prepareStatement(
+						"SELECT R.rID, st " + 
+						"FROM (SELECT AVG(cast(stars as DOUBLE)) st, rID, price FROM RATING natural join ROOM natural join ROOMTYPE GROUP BY rID) R " + 
+						"WHERE R.st > all(SELECT AVG(stars) " + 
+						            "FROM RATING natural join ROOM natural join ROOMTYPE " + 
+						            "WHERE price > R.price " + 
+						            "GROUP BY rID)");
+				ResultSet r = pst.executeQuery();
+				  rs = r;
+		      }
+			catch (SQLException exc) {
+				System.out.println("An error occured. Error: " + exc.getMessage());
+			}
+			return rs;
+		}
 }
