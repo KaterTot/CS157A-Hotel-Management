@@ -226,7 +226,7 @@ public class HotelRoomDisplay {
        sp.setPreferredSize(new Dimension(0, 50));
        
        JButton button = new JButton("Main Menu"); 
-       JLabel bookLabel = new JLabel("Please enter the ID of the room you would like to book as well as dates:");
+       JLabel bookLabel = new JLabel("Please enter the ID of the room you would like to book:");
        JPanel lPanel = new JPanel();
        lPanel.add(bookLabel);
        JLabel in = new JLabel("Check-in date (yyyy-mm-dd)");
