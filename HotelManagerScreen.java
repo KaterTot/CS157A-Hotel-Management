@@ -377,7 +377,7 @@ public class HotelManagerScreen {
 		}
 		String[] columns = {"Customer Username", "Credit Card"};
 
-		JLabel nLabel = new JLabel("The following customers have cancellations in the last month:");
+		JLabel nLabel = new JLabel("The following customers have at least 3 cancellations in the last month:");
 		nLabel.setFont(new Font("Serif", Font.PLAIN, 22));
 		JPanel nPanel = new JPanel();
 		nPanel.setMaximumSize(new Dimension(800, 50));
