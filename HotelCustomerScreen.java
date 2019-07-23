@@ -150,6 +150,7 @@ JFrame input;
 				frame.setVisible(false);
 				HotelSQLProcedures screen = new HotelSQLProcedures();
 				ResultSet rs = screen.bestDeals(cID);
+				ArrayList<String> list = new ArrayList<>();
 				try {
 				frame.setVisible(false);
 				   int count = 0;
@@ -164,16 +165,18 @@ JFrame input;
 					   col = 0;
 					   String rID = String.valueOf(rs.getInt("rID"));
 					   d[row][col] = rID;
+					   list.add(rID);
 					   col ++ ;
-					   String cID = String.valueOf(rs.getDouble("st"));
-					   d[row][col] = cID;
+					   String ave = String.valueOf(rs.getDouble("st"));
+					   d[row][col] = ave;
+					   list.add(ave);
 					   col ++ ;
 					   row ++;
 				   }
 				   String[] columns = {"Room ID", "Average Rating"};
 				   frame.setVisible(false);
 				   HotelRoomDisplay dis = new HotelRoomDisplay();
-				   dis.displayBestDeals(d, columns, cID);
+				   dis.displayBestDeals(d, columns, cID, list);
 				}
 				 catch(SQLException ex)   {
 					   ex.getErrorCode();
