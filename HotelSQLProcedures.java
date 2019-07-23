@@ -343,6 +343,25 @@ public class HotelSQLProcedures {
 		return rs;
 	}
 	
+	public ResultSet highestAvgRating()
+	{
+		ResultSet rs = null;
+		try {
+			PreparedStatement pst = myConn.prepareStatement(
+					"SELECT rID, roomType, AVG(cast(stars as DOUBLE)) avg"
+					+ " FROM room INNER JOIN rating USING(rID)"
+					+ " GROUP BY rID HAVING avg ="
+					+ " (SELECT MAX(ave) FROM"
+					+ " (SELECT rID, AVG(stars) as ave FROM rating GROUP BY rID) Temp)");
+			ResultSet r = pst.executeQuery();
+			  rs = r;
+	      }
+		catch (SQLException exc) {
+			System.out.println("An error occured. Error: " + exc.getMessage());
+		}
+		return rs;
+	}
+	
 	public ResultSet getRatings()
 	{
 		ResultSet rs = null;

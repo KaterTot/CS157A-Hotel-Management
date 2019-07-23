@@ -90,7 +90,7 @@ public class HotelManagerScreen {
 		badCustPanel.add(Box.createHorizontalStrut(50));
 		badCustPanel.add(badCustButton);
 		
-		JLabel badRooms = new JLabel("Show non-profiting rooms");
+		JLabel badRooms = new JLabel("Show Lowest Average Rated Room");
 		JButton badRoomsButton = new JButton("Show");
 		JPanel badRoomsPanel = new JPanel();
 		badRoomsPanel.setMaximumSize(new Dimension(500, 50));
@@ -98,6 +98,15 @@ public class HotelManagerScreen {
 		badRoomsPanel.add(badRooms);
 		badRoomsPanel.add(Box.createHorizontalStrut(50));
 		badRoomsPanel.add(badRoomsButton);
+		
+		JLabel goodRooms = new JLabel("Show Highest Average Rated Room");
+		JButton goodRoomsButton = new JButton("Show");
+		JPanel goodRoomsPanel = new JPanel();
+		goodRoomsPanel.setMaximumSize(new Dimension(500, 50));
+		goodRoomsPanel.add(Box.createHorizontalStrut(20));
+		goodRoomsPanel.add(goodRooms);
+		goodRoomsPanel.add(Box.createHorizontalStrut(50));
+		goodRoomsPanel.add(goodRoomsButton);
 		
 		JLabel archLabel = new JLabel("Archive Reservations");
 		JButton archButton = new JButton("Archive");
@@ -128,6 +137,7 @@ public class HotelManagerScreen {
 		finalPanel.add(rentedPanel);
 		finalPanel.add(badCustPanel);
 		finalPanel.add(badRoomsPanel);
+		finalPanel.add(goodRoomsPanel);
 		finalPanel.add(archPanel);
 		finalPanel.add(logOutPanel);
 
@@ -200,6 +210,14 @@ public class HotelManagerScreen {
 				frame.setVisible(false);
 				HotelManagerScreen screen = new HotelManagerScreen();
 				screen.showBadRooms();
+			}
+		});
+		
+		goodRoomsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelManagerScreen screen = new HotelManagerScreen();
+				screen.showHighRatedRoom();
 			}
 		});
 
@@ -951,7 +969,7 @@ public class HotelManagerScreen {
 				list.add(rID);
 				d[row][col] = rID;
 				col++;
-				String stars = String.valueOf(rs.getInt("stars"));
+				String stars = String.valueOf(rs.getInt("st"));
 				list.add(stars);
 				d[row][col] = stars;
 				col++;
@@ -964,6 +982,90 @@ public class HotelManagerScreen {
 		String[] columns = {"Room ID", "Average # Stars"};
 		
 		JLabel nLabel = new JLabel("The following rooms currently no reservations and have the lowest average rating:");
+		nLabel.setFont(new Font("Serif", Font.PLAIN, 22));
+		JPanel nPanel = new JPanel();
+		nPanel.setMaximumSize(new Dimension(800, 50));
+		nPanel.add(nLabel);
+		
+		JTable j = new JTable(d, columns); 
+		j.setBounds(30, 40, 2000, 300); 
+		JScrollPane sp = new JScrollPane(j); 
+		sp.setPreferredSize(new Dimension(0, 50));
+
+		JButton back = new JButton("Back");
+		JPanel lPanel = new JPanel();
+		lPanel.setMaximumSize(new Dimension(800, 50));
+
+		JPanel bPanel = new JPanel();
+		bPanel.setMaximumSize(new Dimension(500, 50));
+		bPanel.add(back);
+
+		JPanel finalPanel = new JPanel();
+		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
+		finalPanel.setLayout(boxlayout);
+		finalPanel.add(nPanel);
+		finalPanel.add(sp);
+		finalPanel.add(lPanel);
+		finalPanel.add(bPanel);
+
+		back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelManagerScreen screen = new HotelManagerScreen();
+				screen.createScreen();
+			}
+		});
+
+		frame.add(finalPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
+	public void showHighRatedRoom()   {
+		frame = new JFrame("Manager Screen");
+		frame.setPreferredSize(new Dimension(2000,2000));
+		
+		HotelSQLProcedures proc = new HotelSQLProcedures();
+		ResultSet rs = proc.highestAvgRating();
+		int count = 0;
+		int row = 0;
+		int col = 0;
+		try {
+			while(rs.next()) {
+				count ++ ;
+			}
+		}
+		catch(Exception ex) {
+			System.out.println(ex);
+		}
+		String[][] d = new String[count][3];
+		ArrayList<String> list = new ArrayList<>();
+		try {
+			rs.beforeFirst();
+			while(rs.next()) {
+				col = 0;
+				String rID = String.valueOf(rs.getInt("rID"));
+				list.add(rID);
+				d[row][col] = rID;
+				col++;
+				String roomType = rs.getString("roomType");
+				list.add(roomType);
+				d[row][col] = roomType;
+				col++;
+				String stars = String.valueOf(rs.getInt("avg"));
+				list.add(stars);
+				d[row][col] = stars;
+				col++;
+				row ++;
+			}
+		}
+		catch(Exception ex) {
+			System.out.println(ex);
+		}
+		String[] columns = {"Room ID", "Room Type", "Average # Stars"};
+		
+		JLabel nLabel = new JLabel("The following rooms currently have the highest average rating among all rooms:");
 		nLabel.setFont(new Font("Serif", Font.PLAIN, 22));
 		JPanel nPanel = new JPanel();
 		nPanel.setMaximumSize(new Dimension(800, 50));
