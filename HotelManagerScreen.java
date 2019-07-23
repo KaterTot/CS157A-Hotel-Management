@@ -1386,7 +1386,13 @@ public class HotelManagerScreen {
 					j.setBounds(30, 40, 2000, 300); 
 					JScrollPane sp = new JScrollPane(j); 
 					sp.setPreferredSize(new Dimension(0, 50));
-
+					
+					JLabel nLabel = new JLabel("The following customers have made at least two reservations in the past " + numDays + " days.");
+					nLabel.setFont(new Font("Serif", Font.PLAIN, 22));
+					JPanel nPanel = new JPanel();
+					nPanel.setMaximumSize(new Dimension(800, 50));
+					nPanel.add(nLabel);
+					
 					JButton back = new JButton("Back");
 					JPanel lPanel = new JPanel();
 					lPanel.setMaximumSize(new Dimension(800, 50));
@@ -1398,6 +1404,7 @@ public class HotelManagerScreen {
 					JPanel finalPanel = new JPanel();
 					BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
 					finalPanel.setLayout(boxlayout);
+					finalPanel.add(nPanel);
 					finalPanel.add(sp);
 					finalPanel.add(lPanel);
 					finalPanel.add(bPanel);
