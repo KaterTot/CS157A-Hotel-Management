@@ -1240,7 +1240,7 @@ public class HotelManagerScreen {
 				list.add(roomType);
 				d[row][col] = roomType;
 				col++;
-				String numRented = String.valueOf(rs.getInt("numRented"));
+				String numRented = String.valueOf(rs.getInt("c"));
 				list.add(numRented);
 				d[row][col] = numRented;
 				col++;
