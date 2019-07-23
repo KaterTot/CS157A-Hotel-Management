@@ -382,10 +382,11 @@ public class HotelSQLProcedures {
 		ResultSet rs = null;
 		try {
 			PreparedStatement pst = myConn.prepareStatement(
-					"SELECT rID, roomType, numRented, beginDate, endDate"
-					+ " FROM reservation INNER JOIN room USING(rID)"
-					+ " WHERE beginDate > DATE_SUB(CURDATE(), INTERVAL 30 DAY) and endDate < CURDATE()"
-					+ " ORDER BY numRented DESC");
+						"SELECT rID, roomType, cast(count(*) as INTEGER) c, beginDate, endDate"
+						+ " FROM reservation INNER JOIN room USING(rID)"
+						+ " WHERE beginDate > DATE_SUB(CURDATE(), INTERVAL 30 DAY) and endDate < CURDATE()"
+						+ " group by rID"
+						+ " ORDER BY c DESC");
 			ResultSet r = pst.executeQuery();
 			  rs = r;
 	      }
