@@ -367,7 +367,12 @@ public class HotelSQLProcedures {
 		ResultSet rs = null;
 		try {
 			PreparedStatement pst = myConn.prepareStatement(
-					"SELECT cID, rID, max(stars) stars FROM customer NATURAL JOIN RATING GROUP BY rID ORDER BY rID");
+					"select distinct cID, rID, stars "
+					  + "from (select * from customer natural join rating) CR "
+					  + "where stars = (select max(stars) "
+					                 + "from rating where rID=CR.rID "
+					                 + " group by rID) "
+					                 + "order by rID");
 			ResultSet r = pst.executeQuery();
 			  rs = r;
 	      }
