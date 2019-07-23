@@ -208,4 +208,41 @@ public class HotelRoomDisplay {
 	   frame.pack();
 	   frame.setVisible(true);
    }
+	
+   public void displayBestDeals(String[][] data, String[] col, int cID)  {
+	   frame = new JFrame("Display Screen");
+	   frame.setPreferredSize(new Dimension(2000,2000));
+	   
+	   JLabel upLabel = new JLabel("The following rooms have higher average rating than the average rating of the rooms of higher price:");
+	   upLabel.setFont(new Font("Serif", Font.PLAIN, 22));
+	   JPanel nPanel = new JPanel();
+	   nPanel.setMaximumSize(new Dimension(1000, 80));
+	   nPanel.add(upLabel);
+	   
+	   JTable j = new JTable(data, col); 
+	   j.setBounds(30, 40, 2000, 300); 
+           JScrollPane sp = new JScrollPane(j); 
+           sp.setMaximumSize(new Dimension(1000, 50));
+           sp.setPreferredSize(new Dimension(0, 50));
+       
+           JButton button = new JButton("Main Menu");
+           JPanel sPanel = new JPanel();
+	   sPanel.setMaximumSize(new Dimension(1000, 80));
+	   sPanel.add(button);
+	   
+	   button.addActionListener(new ActionListener() {
+		   public void actionPerformed(ActionEvent e) {
+			   frame.setVisible(false);
+			   HotelCustomerScreen screen = new HotelCustomerScreen();
+			   screen.createScreen(cID);
+		   }
+	   });
+	   
+	   frame.add(nPanel, BorderLayout.NORTH);
+           frame.add(sp, BorderLayout.CENTER);
+           frame.add(sPanel, BorderLayout.PAGE_END); 
+           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	   frame.pack();
+	   frame.setVisible(true);
+   }
 }
