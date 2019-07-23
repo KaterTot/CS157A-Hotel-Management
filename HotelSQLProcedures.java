@@ -357,4 +357,22 @@ public class HotelSQLProcedures {
 		}
 		return rs;
 	}
+	
+	public ResultSet showMostRented()
+	{
+		ResultSet rs = null;
+		try {
+			PreparedStatement pst = myConn.prepareStatement(
+					"SELECT rID, roomType, numRented, beginDate, endDate"
+					+ " FROM reservation INNER JOIN room USING(rID)"
+					+ " GROUP BY rID HAVING beginDate > DATE_SUB(CURDATE(), INTERVAL 30 DAY) and endDate < CURDATE()"
+					+ " ORDER BY numRented DESC");
+			ResultSet r = pst.executeQuery();
+			  rs = r;
+	      }
+		catch (SQLException exc) {
+			System.out.println("An error occured. Error: " + exc.getMessage());
+		}
+		return rs;
+	}
 }

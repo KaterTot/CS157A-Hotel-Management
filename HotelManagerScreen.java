@@ -72,6 +72,15 @@ public class HotelManagerScreen {
 		ratingPanel.add(Box.createHorizontalStrut(50));
 		ratingPanel.add(ratingButton);
 		
+		JLabel rented = new JLabel("Show most rented");
+		JButton rentedButton = new JButton("Show");
+		JPanel rentedPanel = new JPanel();
+		rentedPanel.setMaximumSize(new Dimension(500, 50));
+		rentedPanel.add(Box.createHorizontalStrut(20));
+		rentedPanel.add(rented);
+		rentedPanel.add(Box.createHorizontalStrut(50));
+		rentedPanel.add(rentedButton);
+		
 		JLabel badCustomer = new JLabel("Show bad customers");
 		JButton badCustButton = new JButton("Show");
 		JPanel badCustPanel = new JPanel();
@@ -116,6 +125,7 @@ public class HotelManagerScreen {
 		finalPanel.add(remPanel);
 		finalPanel.add(changePanel);
 		finalPanel.add(ratingPanel);
+		finalPanel.add(rentedPanel);
 		finalPanel.add(badCustPanel);
 		finalPanel.add(badRoomsPanel);
 		finalPanel.add(archPanel);
@@ -166,6 +176,14 @@ public class HotelManagerScreen {
 				frame.setVisible(false);
 				HotelManagerScreen screen = new HotelManagerScreen();
 				screen.getRatings();
+			}
+		});
+		
+		rentedButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelManagerScreen screen = new HotelManagerScreen();
+				screen.showMostRented();
 			}
 		});
 
@@ -1030,6 +1048,99 @@ public class HotelManagerScreen {
 		String[] columns = {"Customer ID", "Room ID", "Highest Rating"};
 		
 		JLabel nLabel = new JLabel("The following customers have given the highest ratings:");
+		nLabel.setFont(new Font("Serif", Font.PLAIN, 22));
+		JPanel nPanel = new JPanel();
+		nPanel.setMaximumSize(new Dimension(800, 50));
+		nPanel.add(nLabel);
+		
+		JTable j = new JTable(d, columns); 
+		j.setBounds(30, 40, 2000, 300); 
+		JScrollPane sp = new JScrollPane(j); 
+		sp.setPreferredSize(new Dimension(0, 50));
+
+		JButton back = new JButton("Back");
+		JPanel lPanel = new JPanel();
+		lPanel.setMaximumSize(new Dimension(800, 50));
+
+		JPanel bPanel = new JPanel();
+		bPanel.setMaximumSize(new Dimension(500, 50));
+		bPanel.add(back);
+
+		JPanel finalPanel = new JPanel();
+		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
+		finalPanel.setLayout(boxlayout);
+		finalPanel.add(nPanel);
+		finalPanel.add(sp);
+		finalPanel.add(lPanel);
+		finalPanel.add(bPanel);
+
+		back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelManagerScreen screen = new HotelManagerScreen();
+				screen.createScreen();
+			}
+		});
+
+		frame.add(finalPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
+	public void showMostRented()
+	{
+		frame = new JFrame("Manager Screen");
+		frame.setPreferredSize(new Dimension(2000,2000));
+		
+		HotelSQLProcedures proc = new HotelSQLProcedures();
+		ResultSet rs = proc.showMostRented();
+		int count = 0;
+		int row = 0;
+		int col = 0;
+		try {
+			while(rs.next()) {
+				count ++ ;
+			}
+		}
+		catch(Exception ex) {
+			System.out.println(ex);
+		}
+		String[][] d = new String[count][5];
+		ArrayList<String> list = new ArrayList<>();
+		try {
+			rs.beforeFirst();
+			while(rs.next()) {
+				col = 0;
+				String rID = String.valueOf(rs.getInt("rID"));
+				list.add(rID);
+				d[row][col] = rID;
+				col++;
+				String roomType = rs.getString("roomType");
+				list.add(roomType);
+				d[row][col] = roomType;
+				col++;
+				String numRented = String.valueOf(rs.getInt("numRented"));
+				list.add(numRented);
+				d[row][col] = numRented;
+				col++;
+				String begin = String.valueOf(rs.getDate("beginDate"));
+				list.add(begin);
+				d[row][col] = begin;
+				col++;
+				String end = String.valueOf(rs.getDate("endDate"));
+				list.add(end);
+				d[row][col] = end;
+				col++;
+				row ++;
+			}
+		}
+		catch(Exception ex) {
+			System.out.println(ex);
+		}
+		String[] columns = {"Room ID", "Room Type", "Number of Times Rented", "Begin Date", "End Date"};
+		
+		JLabel nLabel = new JLabel("Rooms that were rented the most number of times over the last month");
 		nLabel.setFont(new Font("Serif", Font.PLAIN, 22));
 		JPanel nPanel = new JPanel();
 		nPanel.setMaximumSize(new Dimension(800, 50));
