@@ -400,8 +400,9 @@ public class HotelSQLProcedures {
 		ResultSet rs = null;
 		try {
 			PreparedStatement pst = myConn.prepareStatement(
-					"SELECT cID FROM customer INNER JOIN reservation USING(cID)"
-					+ " WHERE beginDate > DATE_SUB(CURDATE(), INTERVAL ? DAY) and endDate < CURDATE()");
+						"SELECT distinct cID FROM customer INNER JOIN reservation USING(cID)"
+						+ " WHERE beginDate > DATE_SUB(CURDATE(), INTERVAL ? DAY) and endDate < CURDATE() "
+								+ "group by cID having count(*) >= 2");
 			pst.setInt(1, days);
 			ResultSet r = pst.executeQuery();
 			  rs = r;
