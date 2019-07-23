@@ -394,4 +394,21 @@ public class HotelSQLProcedures {
 		}
 		return rs;
 	}
+	
+	public ResultSet showFreqCust(int days)
+	{
+		ResultSet rs = null;
+		try {
+			PreparedStatement pst = myConn.prepareStatement(
+					"SELECT cID FROM customer INNER JOIN reservation USING(cID)"
+					+ " WHERE beginDate > DATE_SUB(CURDATE(), INTERVAL ? DAY) and endDate < CURDATE()");
+			pst.setInt(1, days);
+			ResultSet r = pst.executeQuery();
+			  rs = r;
+	      }
+		catch (SQLException exc) {
+			System.out.println("An error occured. Error: " + exc.getMessage());
+		}
+		return rs;
+	}
 }
