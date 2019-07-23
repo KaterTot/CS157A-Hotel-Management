@@ -63,6 +63,15 @@ public class HotelManagerScreen {
 		changePanel.add(Box.createHorizontalStrut(50));
 		changePanel.add(changeButton);
 		
+		JLabel ratings = new JLabel("Show best ratings");
+		JButton ratingButton = new JButton("Show");
+		JPanel ratingPanel = new JPanel();
+		ratingPanel.setMaximumSize(new Dimension(500, 50));
+		ratingPanel.add(Box.createHorizontalStrut(20));
+		ratingPanel.add(ratings);
+		ratingPanel.add(Box.createHorizontalStrut(50));
+		ratingPanel.add(ratingButton);
+		
 		JLabel badCustomer = new JLabel("Show bad customers");
 		JButton badCustButton = new JButton("Show");
 		JPanel badCustPanel = new JPanel();
@@ -106,6 +115,7 @@ public class HotelManagerScreen {
 		finalPanel.add(addRoomPanel);
 		finalPanel.add(remPanel);
 		finalPanel.add(changePanel);
+		finalPanel.add(ratingPanel);
 		finalPanel.add(badCustPanel);
 		finalPanel.add(badRoomsPanel);
 		finalPanel.add(archPanel);
@@ -148,6 +158,14 @@ public class HotelManagerScreen {
 				frame.setVisible(false);
 				HotelManagerScreen screen = new HotelManagerScreen();
 				screen.changePrice();
+			}
+		});
+		
+		ratingButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelManagerScreen screen = new HotelManagerScreen();
+				screen.getRatings();
 			}
 		});
 
@@ -911,11 +929,11 @@ public class HotelManagerScreen {
 			rs.beforeFirst();
 			while(rs.next()) {
 				col = 0;
-				String rID = rs.getString("rID");
+				String rID = String.valueOf(rs.getInt("rID"));
 				list.add(rID);
 				d[row][col] = rID;
 				col++;
-				String stars = rs.getString("stars");
+				String stars = String.valueOf(rs.getInt("stars"));
 				list.add(stars);
 				d[row][col] = stars;
 				col++;
@@ -967,4 +985,89 @@ public class HotelManagerScreen {
 		frame.pack();
 		frame.setVisible(true);
 	}
+	
+	public void getRatings()   {
+		frame = new JFrame("Manager Screen");
+		frame.setPreferredSize(new Dimension(2000,2000));
+		
+		HotelSQLProcedures proc = new HotelSQLProcedures();
+		ResultSet rs = proc.getRatings();
+		int count = 0;
+		int row = 0;
+		int col = 0;
+		try {
+			while(rs.next()) {
+				count ++ ;
+			}
+		}
+		catch(Exception ex) {
+			System.out.println(ex);
+		}
+		String[][] d = new String[count][3];
+		ArrayList<String> list = new ArrayList<>();
+		try {
+			rs.beforeFirst();
+			while(rs.next()) {
+				col = 0;
+				String cID = String.valueOf(rs.getInt("cID"));
+				list.add(cID);
+				d[row][col] = cID;
+				col++;
+				String rID = String.valueOf(rs.getInt("rID"));
+				list.add(rID);
+				d[row][col] = rID;
+				col++;
+				String stars = String.valueOf(rs.getInt("stars"));
+				list.add(stars);
+				d[row][col] = stars;
+				col++;
+				row ++;
+			}
+		}
+		catch(Exception ex) {
+			System.out.println(ex);
+		}
+		String[] columns = {"Customer ID", "Room ID", "Highest Rating"};
+		
+		JLabel nLabel = new JLabel("The following customers have given the highest ratings:");
+		nLabel.setFont(new Font("Serif", Font.PLAIN, 22));
+		JPanel nPanel = new JPanel();
+		nPanel.setMaximumSize(new Dimension(800, 50));
+		nPanel.add(nLabel);
+		
+		JTable j = new JTable(d, columns); 
+		j.setBounds(30, 40, 2000, 300); 
+		JScrollPane sp = new JScrollPane(j); 
+		sp.setPreferredSize(new Dimension(0, 50));
+
+		JButton back = new JButton("Back");
+		JPanel lPanel = new JPanel();
+		lPanel.setMaximumSize(new Dimension(800, 50));
+
+		JPanel bPanel = new JPanel();
+		bPanel.setMaximumSize(new Dimension(500, 50));
+		bPanel.add(back);
+
+		JPanel finalPanel = new JPanel();
+		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
+		finalPanel.setLayout(boxlayout);
+		finalPanel.add(nPanel);
+		finalPanel.add(sp);
+		finalPanel.add(lPanel);
+		finalPanel.add(bPanel);
+
+		back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelManagerScreen screen = new HotelManagerScreen();
+				screen.createScreen();
+			}
+		});
+
+		frame.add(finalPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
 }

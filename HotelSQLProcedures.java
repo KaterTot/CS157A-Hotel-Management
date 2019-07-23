@@ -336,7 +336,21 @@ public class HotelSQLProcedures {
 					+ " GROUP BY rID ORDER BY st ASC");
 			ResultSet r = pst.executeQuery();
 			  rs = r;
-			  System.out.println("Done");
+	      }
+		catch (SQLException exc) {
+			System.out.println("An error occured. Error: " + exc.getMessage());
+		}
+		return rs;
+	}
+	
+	public ResultSet getRatings()
+	{
+		ResultSet rs = null;
+		try {
+			PreparedStatement pst = myConn.prepareStatement(
+					"SELECT cID, rID, max(stars) stars FROM customer NATURAL JOIN RATING GROUP BY rID ORDER BY rID");
+			ResultSet r = pst.executeQuery();
+			  rs = r;
 	      }
 		catch (SQLException exc) {
 			System.out.println("An error occured. Error: " + exc.getMessage());
