@@ -325,4 +325,22 @@ public class HotelSQLProcedures {
 			}
 			return rs;
 		}
+
+	public ResultSet lowestAvgRating()
+	{
+		ResultSet rs = null;
+		try {
+			PreparedStatement pst = myConn.prepareStatement(
+					"SELECT rID, AVG(stars) st FROM room LEFT OUTER JOIN rating USING(rID) WHERE rID NOT IN"
+					+ " (SELECT rID FROM reservation)"
+					+ " GROUP BY rID ORDER BY st ASC");
+			ResultSet r = pst.executeQuery();
+			  rs = r;
+			  System.out.println("Done");
+	      }
+		catch (SQLException exc) {
+			System.out.println("An error occured. Error: " + exc.getMessage());
+		}
+		return rs;
+	}
 }
