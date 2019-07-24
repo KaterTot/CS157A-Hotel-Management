@@ -450,9 +450,16 @@ public class HotelSQLProcedures {
 		return rs;
 	}
 	
-	public ResultSet getChangedRooms(Date in, Date out, int rID)   {
-			ResultSet rs = null;
+	public int changeReservationDates(Date in, Date out, int resID)   {
+			int result = 0;
 			 try { 
+				   PreparedStatement st = myConn.prepareStatement("SELECT rID FROM RESERVATION WHERE resID=?");
+				   st.setInt(1, resID);
+				   ResultSet res = st.executeQuery();
+				   if(!res.next())  {
+					   return 0;
+				   }
+				   int rID = res.getInt("rID");
 				   PreparedStatement pst = 
 						   myConn.prepareStatement("select rID, ROOMTYPE.roomType, price, avg(cast(stars AS DOUBLE)) stars"
 						   		+ " from ROOMTYPE natural join ROOM left outer join RATING using(rID) where rID=?"
@@ -466,11 +473,20 @@ public class HotelSQLProcedures {
 				   pst.setDate(4, in);
 				   pst.setDate(5, out);
 				   ResultSet r = pst.executeQuery();
-				   rs = r;
+				   if(!r.next())  {
+					   return 0;
+				      }
+				   PreparedStatement stat = myConn.prepareStatement("UPDATE RESERVATION SET beginDate=?, endDate=?, updateAt=? WHERE resID=?");
+				   stat.setDate(1, in);
+				   stat.setDate(2, out);
+				   stat.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+				   stat.setInt(4, resID);
+				   int upd = stat.executeUpdate();
+				   result = upd;
 				   }
 				   catch (SQLException exc) {
 						System.out.println("An error occured. Error: " + exc.getMessage());
 			   }
-			return rs;
+			 return result;
 		}
 }
