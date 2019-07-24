@@ -10,7 +10,7 @@ import java.sql.*;
 public class HotelRoomDisplay {
 	JFrame frame;
 	JFrame confirm;
-   public void displayReservations(String[][] data, String[] col, int cID)   {
+   public void displayReservations(String[][] data, String[] col, int cID, String status)   {
 	   frame = new JFrame("Start Screen");
 	   frame.setPreferredSize(new Dimension(2000,2000));
 	   
@@ -38,6 +38,47 @@ public class HotelRoomDisplay {
            panel.add(button);
            panel.add(back);
        
+	   JPanel changePanel = new JPanel();
+       BoxLayout boxlayout = new BoxLayout(changePanel, BoxLayout.Y_AXIS);
+	   changePanel.setLayout(boxlayout);
+       JLabel changeLabel = new JLabel("Please enter all required information to change dates of your reservation:");
+       JLabel changeResID = new JLabel("Room ID:");
+	   JTextField changeIDfield = new JTextField();
+	   changeIDfield.setPreferredSize(new Dimension(100, 20));
+	   JLabel newDateIn = new JLabel("New check-in date (yyyy-mm-dd):");
+	   JTextField newCheckIn = new JTextField();
+	   newCheckIn.setPreferredSize(new Dimension(100, 20));
+	   JLabel newDateOut = new JLabel("New check-out date (yyyy-mm-dd):");
+	   JTextField newCheckOut = new JTextField();
+	   newCheckOut.setPreferredSize(new Dimension(100, 20));
+	   JButton change = new JButton("Change");
+	   JButton backBut = new JButton("Back");
+	   
+	   JPanel cPanel = new JPanel();
+	   cPanel.add(changeLabel);
+	   
+	   JPanel newID = new JPanel();
+	   newID.add(changeResID);
+	   newID.add(changeIDfield);
+	   
+	   JPanel newIn = new JPanel();
+	   newIn.add(newDateIn);
+	   newIn.add(newCheckIn);
+	   
+	   JPanel newOut = new JPanel();
+	   newOut.add(newDateOut);
+	   newOut.add(newCheckOut);
+	   
+	   JPanel changeBut = new JPanel();
+	   changeBut.add(backBut);
+	   changeBut.add(change);
+       
+	   changePanel.add(cPanel);
+	   changePanel.add(newID);
+	   changePanel.add(newIn);
+	   changePanel.add(newOut);
+	   changePanel.add(changeBut);
+	   
            back.addActionListener(new ActionListener() {
     	       public void actionPerformed(ActionEvent e) {
     		   frame.setVisible(false);
@@ -66,11 +107,15 @@ public class HotelRoomDisplay {
        
        frame.add(nPanel, BorderLayout.NORTH);
        frame.add(sp, BorderLayout.CENTER);
-       frame.add(panel, BorderLayout.PAGE_END); 
-	   
+       if(status.equals("delete"))   {
+          frame.add(panel, BorderLayout.PAGE_END); 
+          }
+       else {
+    	   frame.add(changePanel, BorderLayout.PAGE_END);
+       }  
        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	   frame.pack();
-	   frame.setVisible(true);
+       frame.pack();
+       frame.setVisible(true);
    }
    
    public void displayAvailableRooms(String[][] rooms, String[] col, Date in, Date out, int cID)   {
