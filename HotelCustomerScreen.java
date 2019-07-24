@@ -319,8 +319,8 @@ JFrame input;
 					HotelSQLProcedures sq = new HotelSQLProcedures();
 					sq.deleteAccount(cID);
 					frame.setVisible(false);
-					HotelStartScreen screen = new HotelStartScreen();
-					screen.createScreen();
+					HotelCustomerScreen screen = new HotelCustomerScreen();
+					screen.confirmResChange("Your account has been deleted", cID);
 				}
 			}
 		});	
@@ -583,8 +583,14 @@ JFrame input;
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
+				if(op.equals("Your reservation dates have been changed!")) {
 				HotelCustomerScreen screen = new HotelCustomerScreen();
 				screen.createScreen(cID);
+				}
+				else   {
+					HotelStartScreen screen = new HotelStartScreen();
+					screen.createScreen();
+				}
 			}
 		});
 		
