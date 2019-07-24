@@ -124,14 +124,6 @@ public class HotelSQLProcedures {
 	public ResultSet getAvailableRooms(Date in, Date out, int price)   {
 		ResultSet rs = null;
 		 try { 
-			 /*
-			   PreparedStatement pst = 
-					   myConn.prepareStatement("select rID, ROOMTYPE.roomType, price, avg(stars) as stars"
-					   		+ " from ROOMTYPE natural join ROOM natural join RATING where price<?"
-					   		+ " and rID not in (select rID from RESERVATION where (? between beginDate and endDate) "
-					   		+ "or (? between beginDate and endDate) or (? >= beginDate and ? <= endDate))"
-					   		+ "group by rID");
-			   */
 			   PreparedStatement pst = 
 					   myConn.prepareStatement("select rID, ROOMTYPE.roomType, price, avg(CAST(stars AS DOUBLE)) stars"
 					   		+ " from ROOMTYPE natural join ROOM left outer join RATING using(rID) where price<?"
@@ -457,4 +449,28 @@ public class HotelSQLProcedures {
 		}
 		return rs;
 	}
+	
+	public ResultSet getChangedRooms(Date in, Date out, int rID)   {
+			ResultSet rs = null;
+			 try { 
+				   PreparedStatement pst = 
+						   myConn.prepareStatement("select rID, ROOMTYPE.roomType, price, avg(cast(stars AS DOUBLE)) stars"
+						   		+ " from ROOMTYPE natural join ROOM left outer join RATING using(rID) where rID=?"
+						   		+ " and rID not in (select rID from RESERVATION where (? between beginDate and endDate) "
+						   		+ "or (? between beginDate and endDate) or (? >= beginDate and ? <= endDate))"
+						   		+ "group by rID");
+				 
+				   pst.setInt(1, rID);
+				   pst.setDate(2, in);
+				   pst.setDate(3, out);
+				   pst.setDate(4, in);
+				   pst.setDate(5, out);
+				   ResultSet r = pst.executeQuery();
+				   rs = r;
+				   }
+				   catch (SQLException exc) {
+						System.out.println("An error occured. Error: " + exc.getMessage());
+			   }
+			return rs;
+		}
 }
