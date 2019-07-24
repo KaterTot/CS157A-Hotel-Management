@@ -84,6 +84,12 @@ JFrame input;
 		logOutPanel.add(Box.createHorizontalStrut(50));
 		logOutPanel.add(logOutButton);
 		
+		JButton deleteButton = new JButton("Delete Account");
+		JPanel deletePanel = new JPanel();
+		deletePanel.setMaximumSize(new Dimension(500, 50));
+		deletePanel.add(Box.createHorizontalStrut(50));
+		deletePanel.add(deleteButton);
+		
 		JPanel finalPanel = new JPanel();
 		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
 		finalPanel.setLayout(boxlayout);
@@ -96,6 +102,7 @@ JFrame input;
 		finalPanel.add(popularPanel);
 		finalPanel.add(ratePanel);
 		finalPanel.add(logOutPanel);
+		finalPanel.add(deletePanel);
 		
 		bookButton.addActionListener(new ActionListener() {
 			   public void actionPerformed(ActionEvent e) {
@@ -253,6 +260,21 @@ JFrame input;
 				screen.createScreen();
 			}
 		});
+		
+		deleteButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int s = JOptionPane.showConfirmDialog(frame, "Warning! This will cancel all active reservations and ratings.", "Delete Account", JOptionPane.YES_NO_OPTION);
+				if (s == JOptionPane.YES_OPTION)
+				{
+					HotelSQLProcedures sq = new HotelSQLProcedures();
+					sq.deleteAccount(cID);
+					frame.setVisible(false);
+					HotelStartScreen screen = new HotelStartScreen();
+					screen.createScreen();
+				}
+			}
+		});
+		
 		
 		frame.add(finalPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -490,4 +512,5 @@ JFrame input;
 	    input.pack();
 	    input.setVisible(true);
 	}
+	
 }

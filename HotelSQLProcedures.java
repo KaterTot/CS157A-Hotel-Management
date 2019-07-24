@@ -83,6 +83,16 @@ public class HotelSQLProcedures {
 		}
 	}
 	
+	public void deleteAccount(int cID) {
+		try {
+			PreparedStatement pst = myConn.prepareStatement("DELETE FROM CUSTOMER WHERE cID=?");
+			pst.setInt(1, cID);
+			pst.executeUpdate();
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}
+	}
+	
 	public int addRoom(String roomType) {
 		try {
 			PreparedStatement pst = myConn.prepareStatement("INSERT INTO ROOM (roomType, numRented) values(?, 0)");
