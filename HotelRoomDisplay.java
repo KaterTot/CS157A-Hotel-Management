@@ -39,10 +39,10 @@ public class HotelRoomDisplay {
            panel.add(back);
        
 	   JPanel changePanel = new JPanel();
-       BoxLayout boxlayout = new BoxLayout(changePanel, BoxLayout.Y_AXIS);
+           BoxLayout boxlayout = new BoxLayout(changePanel, BoxLayout.Y_AXIS);
 	   changePanel.setLayout(boxlayout);
-       JLabel changeLabel = new JLabel("Please enter all required information to change dates of your reservation:");
-       JLabel changeResID = new JLabel("Room ID:");
+           JLabel changeLabel = new JLabel("Please enter all required information to change dates of your reservation:");
+           JLabel changeResID = new JLabel("Reservation ID:");
 	   JTextField changeIDfield = new JTextField();
 	   changeIDfield.setPreferredSize(new Dimension(100, 20));
 	   JLabel newDateIn = new JLabel("New check-in date (yyyy-mm-dd):");
@@ -115,32 +115,18 @@ public class HotelRoomDisplay {
     		   }
     		   else {
     			   HotelSQLProcedures pr = new HotelSQLProcedures();
-    			   ResultSet rs = pr.getChangedRooms(Date.valueOf(in), Date.valueOf(out), Integer.parseInt(r));
-    			   try {
-    			   if(!rs.next())   {
-    				   JOptionPane.showConfirmDialog(frame, "We found no rooms available for the dates you entered. Please try again");
-    			   }
-    			   else {
-    				    int rID = Integer.parseInt(r);
-    				    Date inDate = Date.valueOf(in);
-    				    Date outDate = Date.valueOf(out);
-    					HotelSQLProcedures sq = new HotelSQLProcedures();
-    					sq.insertReservation(rID, inDate, outDate, cID);
-    					frame.setVisible(false);
-    					System.out.println("Success!");
-    		//			HotelStartScreen screen = new HotelStartScreen();
-    		//			screen.createScreen();
-    			   }
-    			   }
-    			   catch(SQLException ex)   {
-    				   ex.getErrorCode();
-    			   }
+    			   int res = pr.changeReservationDates(Date.valueOf(in), Date.valueOf(out), Integer.parseInt(r));
+    			  if(res > 0)   {
+    				  frame.setVisible(false);
+    				  HotelCustomerScreen screen = new HotelCustomerScreen();
+     	    		  screen.confirmResChange("Your reservation dates have been changed!", cID);
+    			  }
+    			  else {
+    				  JOptionPane.showMessageDialog(frame,  "The room is booked for the dates you entered. Please enter different dates");
+    			  }
     		   }
-    		   frame.setVisible(false);
-    		   HotelCustomerScreen screen = new HotelCustomerScreen();
-    		   screen.createScreen(cID);
     	   }
-       });	   
+       });
 	   
        frame.add(nPanel, BorderLayout.NORTH);
        frame.add(sp, BorderLayout.CENTER);
