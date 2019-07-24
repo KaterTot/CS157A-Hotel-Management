@@ -208,10 +208,6 @@ public class HotelSQLProcedures {
 		}
 	}
 	
-	public void showMostPopularRooms()   {
-		
-	}
-	
 	// # 19
 	public int updateRoomPrice(int rID, int price) {
 		try {
@@ -324,7 +320,7 @@ public class HotelSQLProcedures {
 			try {
 				PreparedStatement pst = myConn.prepareStatement(
 						"SELECT R.rID, st " + 
-						"FROM (SELECT AVG(cast(stars as DOUBLE)) st, rID, price FROM RATING natural join ROOM natural join ROOMTYPE GROUP BY rID) R " + 
+						"FROM (SELECT AVG(cast(stars as DECIMAL)) st, rID, price FROM RATING natural join ROOM natural join ROOMTYPE GROUP BY rID) R " + 
 						"WHERE R.st > all(SELECT AVG(stars) " + 
 						            "FROM RATING natural join ROOM natural join ROOMTYPE " + 
 						            "WHERE price > R.price " + 
@@ -436,5 +432,19 @@ public class HotelSQLProcedures {
 		return rs;
 	}
 	
-	// # 
+	// # 23
+	public ResultSet showPopularRooms() {
+		ResultSet rs = null;
+		try {
+			PreparedStatement pst = myConn
+					.prepareStatement("SELECT rID, roomType, numRented " + 
+							"FROM ROOM room1 " + 
+							"WHERE numRented > (SELECT avg(numRented) FROM ROOM WHERE roomType = room1.roomType)");
+			ResultSet r = pst.executeQuery();
+			rs = r;
+		} catch (SQLException exc) {
+			System.out.println("An error occured. Error: " + exc.getMessage());
+		}
+		return rs;
+	}
 }

@@ -302,4 +302,98 @@ public class HotelRoomDisplay {
 	   frame.pack();
 	   frame.setVisible(true);
    }
+   
+   public void displayPopularRooms(String[][] data, String[] col, int cID, ArrayList<String> list)  {
+	   frame = new JFrame("Display Screen");
+	   frame.setPreferredSize(new Dimension(2000,2000));
+	   
+	   JLabel upLabel = new JLabel("The following rooms are more popular than the average rooms of such room type:");
+	   upLabel.setFont(new Font("Serif", Font.PLAIN, 22));
+	   JPanel nPanel = new JPanel();
+	   nPanel.setMaximumSize(new Dimension(1000, 80));
+	   nPanel.add(upLabel);
+	   
+	   JTable j = new JTable(data, col); 
+	   j.setBounds(30, 40, 2000, 300); 
+       JScrollPane sp = new JScrollPane(j); 
+       sp.setMaximumSize(new Dimension(1000, 50));
+       sp.setPreferredSize(new Dimension(0, 50));
+       
+       JButton button = new JButton("Main Menu"); 
+       JLabel bookLabel = new JLabel("Please enter the ID of the room you would like to book:");
+       JPanel lPanel = new JPanel();
+       lPanel.add(bookLabel);
+       JLabel in = new JLabel("Check-in date (yyyy-mm-dd)");
+       JTextField inDate = new JTextField();
+       inDate.setPreferredSize(new Dimension(100, 20));
+       JPanel inPanel = new JPanel();
+       inPanel.add(in);
+       inPanel.add(inDate);
+       JLabel out = new JLabel("Check-out date (yyyy-mm-dd)");
+       JTextField outDate = new JTextField();
+       outDate.setPreferredSize(new Dimension(100, 20));
+       JPanel outPanel = new JPanel();
+       outPanel.add(out);
+       outPanel.add(outDate);
+       JTextField input = new JTextField();
+       input.setPreferredSize(new Dimension(100, 20));
+       JPanel bookPanel = new JPanel();
+       bookPanel.add(bookLabel);
+       bookPanel.add(input);
+       JButton book = new JButton("Book");
+       JPanel buttonPanel = new JPanel();
+       buttonPanel.add(book);
+       buttonPanel.add(button);
+	   
+	   JPanel finalPanel = new JPanel();
+	   BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
+	   finalPanel.setLayout(boxlayout);
+	   finalPanel.add(lPanel);
+	   finalPanel.add(bookPanel);
+	   finalPanel.add(inPanel);
+	   finalPanel.add(outPanel);
+	   finalPanel.add(buttonPanel);
+	   
+	   button.addActionListener(new ActionListener() {
+		   public void actionPerformed(ActionEvent e) {
+			   frame.setVisible(false);
+			   HotelCustomerScreen screen = new HotelCustomerScreen();
+			   screen.createScreen(cID);
+		   }
+	   });
+	   
+	   book.addActionListener(new ActionListener() {
+		   public void actionPerformed(ActionEvent e) {
+			   String inp = input.getText();
+			   String inD = inDate.getText();
+			   String outD = outDate.getText();
+			   if(inp.isEmpty() || inD.isEmpty() || outD.isEmpty())   {
+				   JOptionPane.showMessageDialog(frame,  "Please enter all required information");
+			   }
+			   else if(!list.contains(inp))   {
+				   JOptionPane.showMessageDialog(frame,  "Please enter a valid room ID");
+				   input.setText("");
+			   }
+			   else   {
+				   HotelSQLProcedures pr = new HotelSQLProcedures();
+			       int res = pr.insertReservation(Integer.parseInt(inp), Date.valueOf(inD), Date.valueOf(outD), cID);
+			       if(res > 0)   {
+		         	   frame.setVisible(false);
+			           HotelRoomDisplay dis = new HotelRoomDisplay();
+			           dis.registrationConfirmScreen(Integer.parseInt(inp), cID);
+			       }
+			       else {
+			    	   JOptionPane.showMessageDialog(frame,  "There was a problem processing your request. Please try again later");
+			       }
+			   }
+		   }
+	   });
+	   
+	   frame.add(nPanel, BorderLayout.NORTH);
+           frame.add(sp, BorderLayout.CENTER);
+           frame.add(finalPanel, BorderLayout.PAGE_END); 
+           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	   frame.pack();
+	   frame.setVisible(true);
+   }
 }

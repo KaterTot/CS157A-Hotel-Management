@@ -60,6 +60,15 @@ JFrame input;
 		remPanel.add(Box.createHorizontalStrut(50));
 		remPanel.add(dealsButton);
 		
+		JLabel popularRoom = new JLabel("Choose the most popular rooms");
+		JButton popularButton = new JButton("Choose");
+		JPanel popularPanel = new JPanel();
+		popularPanel.setMaximumSize(new Dimension(500, 50));
+		popularPanel.add(Box.createHorizontalStrut(20));
+		popularPanel.add(popularRoom);
+		popularPanel.add(Box.createHorizontalStrut(50));
+		popularPanel.add(popularButton);
+		
 		JLabel rateRoom = new JLabel("Rate a room you have already stayed in");
 		JButton rateButton = new JButton("Rate");
 		JPanel ratePanel = new JPanel();
@@ -84,6 +93,7 @@ JFrame input;
 		finalPanel.add(delPanel);
 		finalPanel.add(addRoomPanel);
 		finalPanel.add(remPanel);
+		finalPanel.add(popularPanel);
 		finalPanel.add(ratePanel);
 		finalPanel.add(logOutPanel);
 		
@@ -145,6 +155,50 @@ JFrame input;
 			   }
 		   });
 		
+		popularButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelSQLProcedures screen = new HotelSQLProcedures();
+				ResultSet rs = screen.showPopularRooms();
+				ArrayList<String> list = new ArrayList<>();
+				try {
+				frame.setVisible(false);
+				   int count = 0;
+				   int row = 0;
+				   int col = 0;
+				   while(rs.next())   {
+					   count ++ ;
+				   }
+				   rs.beforeFirst();
+				   String[][] d = new String[count][3];
+				   while(rs.next())   {
+					   col = 0;
+					   String rID = String.valueOf(rs.getInt("rID"));
+					   d[row][col] = rID;
+					   list.add(rID);
+					   col ++ ;
+					   // roomType, numRented"
+					   String roomType = rs.getString("roomType");
+					   d[row][col] = roomType;
+					   list.add(roomType);
+					   col++;
+					   String numRented = String.valueOf(rs.getInt("numRented"));
+					   d[row][col] = numRented;
+					   list.add(numRented);
+					   col ++ ;
+					   row ++;
+				   }
+				   String[] columns = {"Room ID", "Room Type", "# of Times Rented"};
+				   frame.setVisible(false);
+				   HotelRoomDisplay dis = new HotelRoomDisplay();
+				   dis.displayBestDeals(d, columns, cID, list);
+				}
+				 catch(SQLException ex)   {
+					   ex.getErrorCode();
+				   }
+			}
+		});
+		
 		dealsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
@@ -176,7 +230,7 @@ JFrame input;
 				   String[] columns = {"Room ID", "Average Rating"};
 				   frame.setVisible(false);
 				   HotelRoomDisplay dis = new HotelRoomDisplay();
-				   dis.displayBestDeals(d, columns, cID, list);
+				   dis.displayPopularRooms(d, columns, cID, list);
 				}
 				 catch(SQLException ex)   {
 					   ex.getErrorCode();
