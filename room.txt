@@ -24,13 +24,27 @@
 	Double Queen	4
 	Double Queen	1
 	Double Queen	0
+	Double Queen	0
+	Double Queen	3
+	Double Queen	0
+	Double Queen	2
 	Double King	1
 	Double King	0
 	Double King	2
 	Double King	0
 	Double King	1
+	Double King	17
 	Double King	3
+	Double King	10
+	Double King	3
+	Double King	15
 	Suite	0
 	Suite	2
 	Suite	3
-	Suite	8	
+	Suite	8
+	Suite	0
+	Suite	8
+	Suite	0
+	Suite	8
+	Suite	15
+	Suite	1	
