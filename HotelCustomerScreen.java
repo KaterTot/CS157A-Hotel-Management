@@ -153,7 +153,57 @@ JFrame input;
 					   }
 					   String[] columns = {"Reservation ID", "Customer ID", "Room ID", "Check-in Date", "Check-out Date"};
 					   HotelRoomDisplay dis = new HotelRoomDisplay();
-					   dis.displayReservations(d, columns, cID);
+					   dis.displayReservations(d, columns, cID, "delete");
+				     }
+				   }
+				   catch(SQLException ex)   {
+					   ex.getErrorCode();
+				   }
+			   }
+		   });
+		
+		addRoomButton.addActionListener(new ActionListener() {
+			   public void actionPerformed(ActionEvent e) {
+				   HotelSQLProcedures pr = new HotelSQLProcedures();
+				   ResultSet rs = pr.getReservations(cID);
+				   try {
+				   if(!rs.next())   {
+					   frame.setVisible(false);
+					   HotelCustomerScreen screen = new HotelCustomerScreen();
+					   screen.showNoReservations(cID);
+				      }
+				   else {
+					   frame.setVisible(false);
+					   rs.beforeFirst();
+					   int count = 0;
+					   int row = 0;
+					   int col = 0;
+					   while(rs.next())   {
+						   count ++ ;
+					   }
+					   rs.beforeFirst();
+					   String[][] d = new String[count][5];
+					   while(rs.next())   {
+						   col = 0;
+						   String resID = String.valueOf(rs.getInt("resID"));
+						   d[row][col] = resID;
+						   col ++ ;
+						   String cID = String.valueOf(rs.getInt("cID"));
+						   d[row][col] = cID;
+						   col ++ ;
+						   String rID = String.valueOf(rs.getInt("rID"));
+						   d[row][col] = rID;
+						   col ++ ;
+						   String beg = String.valueOf(rs.getDate("beginDate"));
+						   d[row][col] = beg;
+						   col ++ ;
+						   String end = String.valueOf(rs.getDate("endDate"));
+						   d[row][col] = end;
+						   row ++;
+					   }
+					   String[] columns = {"Reservation ID", "Customer ID", "Room ID", "Check-in Date", "Check-out Date"};
+					   HotelRoomDisplay dis = new HotelRoomDisplay();
+					   dis.displayReservations(d, columns, cID, "change");
 				     }
 				   }
 				   catch(SQLException ex)   {
@@ -273,13 +323,12 @@ JFrame input;
 					screen.createScreen();
 				}
 			}
-		});
-		
+		});	
 		
 		frame.add(finalPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.pack();
-	    frame.setVisible(true);
+	        frame.pack();
+	        frame.setVisible(true);
 	}	
 	
 	public void showNoReservations(int cID)  {
@@ -511,6 +560,5 @@ JFrame input;
 		input.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    input.pack();
 	    input.setVisible(true);
-	}
-	
+	}	
 }
