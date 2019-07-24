@@ -105,6 +105,43 @@ public class HotelRoomDisplay {
     	   }
        });
        
+       change.addActionListener(new ActionListener() {
+    	   public void actionPerformed(ActionEvent e) {
+    		   String r = changeIDfield.getText();
+    		   String in = newCheckIn.getText();
+    		   String out = newCheckOut.getText();
+    		   if(r.isEmpty() || in.isEmpty() || out.isEmpty())   {
+    			   JOptionPane.showMessageDialog(frame,  "Please enter all required information");
+    		   }
+    		   else {
+    			   HotelSQLProcedures pr = new HotelSQLProcedures();
+    			   ResultSet rs = pr.getChangedRooms(Date.valueOf(in), Date.valueOf(out), Integer.parseInt(r));
+    			   try {
+    			   if(!rs.next())   {
+    				   JOptionPane.showConfirmDialog(frame, "We found no rooms available for the dates you entered. Please try again");
+    			   }
+    			   else {
+    				    int rID = Integer.parseInt(r);
+    				    Date inDate = Date.valueOf(in);
+    				    Date outDate = Date.valueOf(out);
+    					HotelSQLProcedures sq = new HotelSQLProcedures();
+    					sq.insertReservation(rID, inDate, outDate, cID);
+    					frame.setVisible(false);
+    					System.out.println("Success!");
+    		//			HotelStartScreen screen = new HotelStartScreen();
+    		//			screen.createScreen();
+    			   }
+    			   }
+    			   catch(SQLException ex)   {
+    				   ex.getErrorCode();
+    			   }
+    		   }
+    		   frame.setVisible(false);
+    		   HotelCustomerScreen screen = new HotelCustomerScreen();
+    		   screen.createScreen(cID);
+    	   }
+       });	   
+	   
        frame.add(nPanel, BorderLayout.NORTH);
        frame.add(sp, BorderLayout.CENTER);
        if(status.equals("delete"))   {
