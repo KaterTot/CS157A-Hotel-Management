@@ -31,6 +31,7 @@ public class HotelSQLProcedures {
 		}
 	}
 	
+	
 	public int validateLogin(String uName, String password, String position)   {
 		   try {
 			   PreparedStatement pst = 
@@ -161,6 +162,7 @@ public class HotelSQLProcedures {
 		   }
 	}
 	
+	//# 26
 	public ResultSet getReservations(int cID)   {
 		 ResultSet rs = null;
 		 try {
@@ -176,6 +178,7 @@ public class HotelSQLProcedures {
 		 return rs;
 	}
 	
+	// # 14
 	public int cancelReservations(int cID, int resID)   {
 		 try {
 	
@@ -192,6 +195,7 @@ public class HotelSQLProcedures {
 		   }
 	}
 	
+	// # 17
 	public int deleteRoom(int rID) {
 		try {
 			PreparedStatement pst = myConn.prepareStatement("DELETE FROM ROOM WHERE rID=?");
@@ -208,6 +212,7 @@ public class HotelSQLProcedures {
 		
 	}
 	
+	// # 19
 	public int updateRoomPrice(int rID, int price) {
 		try {
 			PreparedStatement pst = myConn.prepareStatement(
@@ -222,6 +227,7 @@ public class HotelSQLProcedures {
 		}
 	}
 	
+	// # 15
 	public void rateRoom(int cID, int rID, int stars) {
 		try {
 			PreparedStatement pst = myConn.prepareStatement("INSERT INTO RATING (cID, rID, stars, ratingDate) VALUES(?,?,?,?)");
@@ -235,6 +241,7 @@ public class HotelSQLProcedures {
 		}
 	}
 
+	// # 13
 	public ResultSet getReservedRooms(int cID) {
 		ResultSet rs = null;
 		try {
@@ -250,6 +257,7 @@ public class HotelSQLProcedures {
 	
 	// Return the name and credit card number of the customers who made and cancelled reservations
 	// at least three times in the last month. (let’s charge them extra money!)
+	// # 5
 	public ResultSet getUnreliableCustomers() {
 		ResultSet rs = null;
 		try {
@@ -265,6 +273,7 @@ public class HotelSQLProcedures {
 		return rs;
 	}
 	
+	// no function in the report for this!
 	public ResultSet showRoomsAndPrices()
 	{
 		ResultSet rs = null;
@@ -281,6 +290,7 @@ public class HotelSQLProcedures {
 		return rs;
 	}
 	
+	// no function in the report for this! 
 	public int archiveReservations(Date date) {
 		try {
 			CallableStatement cs = myConn.prepareCall("{CALL archiveReservation(?)}");
@@ -293,6 +303,7 @@ public class HotelSQLProcedures {
 			return 1;
 		}
 	
+	// no function in the report for this! 
 	public ResultSet getArchivedReservations()   {
 			ResultSet rs = null;
 			try {
@@ -307,6 +318,7 @@ public class HotelSQLProcedures {
 			return rs;
 	}
 	
+	// # 1
 	public ResultSet bestDeals(int cID)   {
 			ResultSet rs = null;
 			try {
@@ -326,6 +338,7 @@ public class HotelSQLProcedures {
 			return rs;
 		}
 
+	// # 24
 	public ResultSet lowestAvgRating()
 	{
 		ResultSet rs = null;
@@ -343,6 +356,7 @@ public class HotelSQLProcedures {
 		return rs;
 	}
 	
+	// # 2
 	public ResultSet highestAvgRating()
 	{
 		ResultSet rs = null;
@@ -362,6 +376,7 @@ public class HotelSQLProcedures {
 		return rs;
 	}
 	
+	// #21
 	public ResultSet getRatings()
 	{
 		ResultSet rs = null;
@@ -382,6 +397,7 @@ public class HotelSQLProcedures {
 		return rs;
 	}
 	
+	// # 18
 	public ResultSet showMostRented()
 	{
 		ResultSet rs = null;
@@ -401,6 +417,7 @@ public class HotelSQLProcedures {
 		return rs;
 	}
 	
+	// # 4
 	public ResultSet showFreqCust(int days)
 	{
 		ResultSet rs = null;
@@ -418,4 +435,6 @@ public class HotelSQLProcedures {
 		}
 		return rs;
 	}
+	
+	// # 
 }
