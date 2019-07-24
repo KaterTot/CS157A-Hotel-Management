@@ -560,5 +560,37 @@ JFrame input;
 		input.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    input.pack();
 	    input.setVisible(true);
-	}	
+	}
+	
+	public void confirmResChange(String op, int cID)   {
+		frame = new JFrame("Manager Screen");
+		frame.setPreferredSize(new Dimension(2000,2000));
+		JLabel label = new JLabel(op);
+		label.setFont(new Font("Serif", Font.PLAIN, 22));
+		JButton button = new JButton("Main Menu");
+		JPanel lPanel = new JPanel();
+		lPanel.setMaximumSize(new Dimension(800, 50));
+		lPanel.add(label);
+		JPanel butPanel = new JPanel();
+		butPanel.setMaximumSize(new Dimension(800, 50));
+		butPanel.add(button);
+		JPanel finalPanel = new JPanel();
+		BoxLayout boxlayout = new BoxLayout(finalPanel, BoxLayout.Y_AXIS);
+		finalPanel.setLayout(boxlayout);
+		finalPanel.add(lPanel);
+		finalPanel.add(butPanel);
+		
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				HotelCustomerScreen screen = new HotelCustomerScreen();
+				screen.createScreen(cID);
+			}
+		});
+		
+		frame.add(finalPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.pack();
+	    frame.setVisible(true);
+	}
 }
