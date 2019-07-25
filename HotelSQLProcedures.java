@@ -489,4 +489,22 @@ public class HotelSQLProcedures {
 			   }
 			 return result;
 		}
+	
+	public ResultSet roomsToAvoid()     {
+			ResultSet rs = null;
+			try {
+				PreparedStatement pst = myConn
+						.prepareStatement("SELECT R.rID, RT.roomType, RAT.stars " + 
+								"FROM ROOM R, ROOMTYPE RT, RATING RAT " + 
+								"WHERE R.roomType = RT.roomType and R.rID = RAT.rID and " + 
+								"stars = any (SELECT MIN(stars)" + 
+								                   " FROM RATING" + 
+								                   " GROUP BY rID)");
+				ResultSet r = pst.executeQuery();
+				rs = r;
+			} catch (SQLException exc) {
+				System.out.println("An error occured. Error: " + exc.getMessage());
+			}
+			return rs;
+		}
 }
