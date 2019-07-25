@@ -78,6 +78,14 @@ JFrame input;
 		ratePanel.add(Box.createHorizontalStrut(50));
 		ratePanel.add(rateButton);
 		
+		JLabel avoidRoom = new JLabel("Show rooms you may want to avoid");
+		JButton avoidButton = new JButton("Show");
+		JPanel avoidPanel = new JPanel();
+		avoidPanel.setMaximumSize(new Dimension(500, 50));
+		avoidPanel.add(avoidRoom);
+		avoidPanel.add(Box.createHorizontalStrut(50));
+		avoidPanel.add(avoidButton);
+		
 		JButton logOutButton = new JButton("Log Out");
 		JPanel logOutPanel = new JPanel();
 		logOutPanel.setMaximumSize(new Dimension(500, 50));
@@ -101,6 +109,7 @@ JFrame input;
 		finalPanel.add(remPanel);
 		finalPanel.add(popularPanel);
 		finalPanel.add(ratePanel);
+		finalPanel.add(avoidPanel);
 		finalPanel.add(logOutPanel);
 		finalPanel.add(deletePanel);
 		
@@ -302,6 +311,43 @@ JFrame input;
 				screen.rateRoom(cID);
 			}
 		});
+		
+		avoidButton.addActionListener(new ActionListener() {
+			   public void actionPerformed(ActionEvent e) {
+				   HotelSQLProcedures pr = new HotelSQLProcedures();
+				   ResultSet res = pr.roomsToAvoid();
+				   int count = 0;
+				   int row = 0;
+				   int col = 0;
+				   try {
+					   while(res.next())   {
+						   count ++ ;
+					   }
+					   res.beforeFirst();
+					   String[][] data = new String[count][3];
+					   while(res.next())   {
+						   col = 0;
+						   String rID = String.valueOf(res.getInt("rID"));
+						   data[row][col] = rID;
+						   col ++ ;
+						   String rType = String.valueOf(res.getString("roomType"));
+						   data[row][col] = rType;
+						   col ++ ;
+						   String stars = String.valueOf(res.getInt("stars"));
+						   data[row][col] = stars;
+						   col ++ ;
+						   row ++;
+					   }
+					   String[] columns = {"Room ID", "Room Type", "Lowest Rating"};
+					   HotelRoomDisplay disp = new HotelRoomDisplay();
+					   disp.displayRoomsToAvoid(data, columns, cID);
+					   frame.setVisible(false);
+				   }
+				   catch(SQLException ex)   {
+					   ex.getErrorCode();
+				   }
+			   }
+		   });
 		
 		logOutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
