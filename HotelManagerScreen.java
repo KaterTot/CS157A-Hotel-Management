@@ -999,7 +999,7 @@ public class HotelManagerScreen {
 		}
 		String[] columns = {"Room ID", "Average # Stars"};
 
-		JLabel nLabel = new JLabel("The following rooms currently no reservations and have the lowest average rating:");
+		JLabel nLabel = new JLabel("The following rooms currently have no reservations and have the lowest average rating:");
 		nLabel.setFont(new Font("Serif", Font.PLAIN, 22));
 		JPanel nPanel = new JPanel();
 		nPanel.setMaximumSize(new Dimension(800, 50));
@@ -1014,8 +1014,16 @@ public class HotelManagerScreen {
 		JPanel lPanel = new JPanel();
 		lPanel.setMaximumSize(new Dimension(800, 50));
 
+		JButton delete = new JButton("Delete");
+		JLabel l = new JLabel("Enter room ID of the room you wish to delete:");
+		JTextField inp = new JTextField();
+		inp.setPreferredSize(new Dimension(100, 20));
+		lPanel.add(l);
+		lPanel.add(inp);
+		
 		JPanel bPanel = new JPanel();
 		bPanel.setMaximumSize(new Dimension(500, 50));
+		bPanel.add(delete);
 		bPanel.add(back);
 
 		JPanel finalPanel = new JPanel();
@@ -1031,6 +1039,29 @@ public class HotelManagerScreen {
 				frame.setVisible(false);
 				HotelManagerScreen screen = new HotelManagerScreen();
 				screen.createScreen();
+			}
+		});
+		
+		delete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String in = inp.getText();
+				if(in.isEmpty())   {
+					JOptionPane.showMessageDialog(frame,  "Please enter a valid room number");
+				}
+				else   {
+				int rID = Integer.parseInt(in);
+				HotelSQLProcedures pr = new HotelSQLProcedures();
+				int res = pr.deleteRoom(rID);
+				if(res > 0)   {
+				frame.setVisible(false);
+				HotelManagerScreen screen = new HotelManagerScreen();
+				screen.confirmAddDelete("The room", "deleted from");
+			     	}
+				else   {
+					   JOptionPane.showMessageDialog(frame, "There was a problem processing your request. Please try again later");
+					   inp.setText("");
+		     		}
+				}
 			}
 		});
 
