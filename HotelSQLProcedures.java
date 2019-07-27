@@ -232,7 +232,7 @@ public class HotelSQLProcedures {
 			pst.setInt(1, cID);
 			pst.setInt(2, rID);
 			pst.setInt(3, stars);
-			pst.setDate(4, new java.sql.Date(System.currentTimeMillis()));
+			pst.setTimestamp(4, new java.sql.Timestamp(new java.util.Date().getTime()));
 			pst.executeUpdate();
 		} catch (SQLException exc) {
 			exc.printStackTrace();
