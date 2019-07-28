@@ -8,6 +8,26 @@
 	Queen	0
 	Queen	0
 	Queen	0
+	Queen	0
+	Queen	0
+	Queen	0
+	Queen	0
+	Queen	0
+	Queen	0
+	Queen	0
+	Queen	0
+	Queen	0
+	Queen	0
+	King 	0
+	King 	0
+	King 	0
+	King 	0
+	King 	0
+	King 	0
+	King 	0
+	King 	0
+	King 	0
+	King 	0
 	King 	0
 	King 	0
 	King 	0
@@ -28,6 +48,16 @@
 	Double Queen	0
 	Double Queen	0
 	Double Queen	0
+	Double Queen	0
+	Double Queen	0
+	Double Queen	0
+	Double Queen	0
+	Double Queen	0
+	Double Queen	0
+	Double Queen	0
+	Double Queen	0
+	Double Queen	0
+	Double Queen	0
 	Double King	0
 	Double King	0
 	Double King	0
@@ -38,6 +68,26 @@
 	Double King	0
 	Double King	0
 	Double King	0
+	Double King	0
+	Double King	0
+	Double King	0
+	Double King	0
+	Double King	0
+	Double King	0
+	Double King	0
+	Double King	0
+	Double King	0
+	Double King	0
+	Suite	0
+	Suite	0
+	Suite	0
+	Suite	0
+	Suite	0
+	Suite	0
+	Suite	0
+	Suite	0
+	Suite	0
+	Suite	0
 	Suite	0
 	Suite	0
 	Suite	0
