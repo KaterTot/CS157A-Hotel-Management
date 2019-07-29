@@ -1,62 +1,62 @@
+	Queen	2
+	Queen	0
+	Queen	4
+	Queen	1
+	Queen	1
+	Queen	0
+	Queen	0
+	Queen	2
 	Queen	0
 	Queen	0
 	Queen	0
+	Queen	1
+	Queen	3
+	Queen	1
+	Queen	2
 	Queen	0
 	Queen	0
-	Queen	0
-	Queen	0
-	Queen	0
-	Queen	0
-	Queen	0
-	Queen	0
-	Queen	0
-	Queen	0
-	Queen	0
-	Queen	0
-	Queen	0
-	Queen	0
-	Queen	0
+	Queen	1
 	Queen	0
 	Queen	0
 	King	0
 	King	0
+	King	1
 	King	0
 	King	0
+	King	1
+	King	0
+	King	1
+	King	0
+	King	2
+	King	3
+	King	0
+	King	1
+	King	1
+	King	1
 	King	0
 	King	0
+	King	1
+	King	3
 	King	0
-	King	0
-	King	0
-	King	0
-	King	0
-	King	0
-	King	0
-	King	0
-	King	0
-	King	0
-	King	0
-	King	0
-	King	0
-	King	0
+	Double Queen	1
+	Double Queen	0
+	Double Queen	2
+	Double Queen	2
+	Double Queen	1
+	Double Queen	0
+	Double Queen	0
+	Double Queen	0
+	Double Queen	1
 	Double Queen	0
 	Double Queen	0
 	Double Queen	0
 	Double Queen	0
 	Double Queen	0
+	Double Queen	1
 	Double Queen	0
 	Double Queen	0
 	Double Queen	0
-	Double Queen	0
-	Double Queen	0
-	Double Queen	0
-	Double Queen	0
-	Double Queen	0
-	Double Queen	0
-	Double Queen	0
-	Double Queen	0
-	Double Queen	0
-	Double Queen	0
-	Double Queen	0
+	Double Queen	1
 	Double Queen	0
 	Double King	0
 	Double King	0
@@ -66,35 +66,35 @@
 	Double King	0
 	Double King	0
 	Double King	0
+	Double King	1
+	Double King	0
+	Double King	1
+	Double King	2
 	Double King	0
 	Double King	0
 	Double King	0
 	Double King	0
 	Double King	0
 	Double King	0
-	Double King	0
-	Double King	0
-	Double King	0
-	Double King	0
-	Double King	0
+	Double King	1
 	Double King	0
 	Suite	0
+	Suite	1
 	Suite	0
 	Suite	0
 	Suite	0
+	Suite	1
+	Suite	0
+	Suite	1
+	Suite	1
 	Suite	0
 	Suite	0
+	Suite	2
+	Suite	1
 	Suite	0
 	Suite	0
-	Suite	0
-	Suite	0
-	Suite	0
-	Suite	0
-	Suite	0
-	Suite	0
-	Suite	0
-	Suite	0
-	Suite	0
-	Suite	0
-	Suite	0
-	Suite	0
+	Suite	1
+	Suite	1
+	Suite	1
+	Suite	3
+	Suite	2
