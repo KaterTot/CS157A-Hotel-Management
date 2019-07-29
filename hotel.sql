@@ -68,7 +68,7 @@ CREATE TABLE CANCELLATION
 (canclID INT AUTO_INCREMENT,
  rID INT,
  cID INT,
- cancellationDate timestamp not null on update current_timestamp,
+ cancellationDate timestamp default current_timestamp on update current_timestamp,
  UNIQUE (canclID),
  FOREIGN KEY(rID) REFERENCES ROOM(rID) on delete cascade,
  FOREIGN KEY(cID) REFERENCES CUSTOMER(cID) on delete cascade
@@ -113,5 +113,13 @@ BEGIN
 	INSERT INTO cancellation(rID, cID, cancellationDate) VALUES (old.rID, old.cID, current_timestamp);
     END IF; 	
 END//
-DELIMITER ; 
+DELIMITER ;
 
+
+LOAD DATA LOCAL INFILE 'E:\\katel\\Documents\\Skool\\CS157A-Hotel-Management-master\\cancellation.txt' INTO TABLE CANCELLATION;
+LOAD DATA LOCAL INFILE 'E:\\katel\\Documents\\Skool\\CS157A-Hotel-Management-master\\customer.txt' INTO TABLE CUSTOMER;
+LOAD DATA LOCAL INFILE 'E:\\katel\\Documents\\Skool\\CS157A-Hotel-Management-master\\manager.txt' INTO TABLE MANAGER;
+LOAD DATA LOCAL INFILE 'E:\\katel\\Documents\\Skool\\CS157A-Hotel-Management-master\\ratings.txt' INTO TABLE RATING;
+LOAD DATA LOCAL INFILE 'E:\\katel\\Documents\\Skool\\CS157A-Hotel-Management-master\\reservation.txt' INTO TABLE RESERVATION;
+LOAD DATA LOCAL INFILE 'E:\\katel\\Documents\\Skool\\CS157A-Hotel-Management-master\\room.txt' INTO TABLE ROOM;
+LOAD DATA LOCAL INFILE 'E:\\katel\\Documents\\Skool\\CS157A-Hotel-Management-master\\roomType.txt' INTO TABLE ROOMTYPE;
