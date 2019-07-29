@@ -327,7 +327,7 @@ public class HotelSQLProcedures {
 			try {
 				PreparedStatement pst = myConn.prepareStatement(
 						"SELECT R.rID, st " + 
-						"FROM (SELECT AVG(cast(stars as DECIMAL)) st, rID, price FROM RATING natural join ROOM natural join ROOMTYPE GROUP BY rID) R " + 
+						"FROM (SELECT AVG(cast(stars as DOUBLE)) st, rID, price FROM RATING natural join ROOM natural join ROOMTYPE GROUP BY rID) R " + 
 						"WHERE R.st > all(SELECT AVG(stars) " + 
 						            "FROM RATING natural join ROOM natural join ROOMTYPE " + 
 						            "WHERE price > R.price " + 
