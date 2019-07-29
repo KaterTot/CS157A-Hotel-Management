@@ -66,7 +66,7 @@ public class HotelStartScreen {
 		JLabel username = new JLabel("Username:");
 		JLabel password = new JLabel("Password:");
 		JTextField user = new JTextField();
-		JTextField pass = new JTextField();
+		JPasswordField pass = new JPasswordField();
 		user.setPreferredSize(new Dimension(100, 20));
 		pass.setPreferredSize(new Dimension(100, 20));
 		
