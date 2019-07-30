@@ -259,7 +259,7 @@ public class HotelSQLProcedures {
 	}
 	
 	// Return the name and credit card number of the customers who made and cancelled reservations
-	// at least three times in the last month. (letâ€™s charge them extra money!)
+	// at least three times in the last month. (let’s charge them extra money!)
 	// # 5
 	public ResultSet getUnreliableCustomers() {
 		ResultSet rs = null;
@@ -504,7 +504,7 @@ public class HotelSQLProcedures {
 								"WHERE R.roomType = RT.roomType and R.rID = RAT.rID and " + 
 								"stars = any (SELECT MIN(stars)" + 
 								                   " FROM RATING" + 
-								                   " GROUP BY rID)");
+								                   " GROUP BY rID) and stars < 3" );
 				ResultSet r = pst.executeQuery();
 				rs = r;
 			} catch (SQLException exc) {
