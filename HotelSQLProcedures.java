@@ -259,7 +259,7 @@ public class HotelSQLProcedures {
 	}
 	
 	// Return the name and credit card number of the customers who made and cancelled reservations
-	// at least three times in the last month. (let’s charge them extra money!)
+	// at least three times in the last month. (letâ€™s charge them extra money!)
 	// # 5
 	public ResultSet getUnreliableCustomers() {
 		ResultSet rs = null;
@@ -347,7 +347,7 @@ public class HotelSQLProcedures {
 		ResultSet rs = null;
 		try {
 			PreparedStatement pst = myConn.prepareStatement(
-					"SELECT rID, AVG(stars) st FROM room LEFT OUTER JOIN rating USING(rID) WHERE rID NOT IN"
+					"SELECT rID, AVG(cast(stars as DOUBLE)) st FROM room NATURAL JOIN rating WHERE rID NOT IN"
 					+ " (SELECT rID FROM reservation)"
 					+ " GROUP BY rID ORDER BY st ASC");
 			ResultSet r = pst.executeQuery();
