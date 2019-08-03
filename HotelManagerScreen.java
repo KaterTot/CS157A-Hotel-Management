@@ -1257,7 +1257,7 @@ public class HotelManagerScreen {
 		catch(Exception ex) {
 			System.out.println(ex);
 		}
-		String[][] d = new String[count][5];
+		String[][] d = new String[count][3];
 		ArrayList<String> list = new ArrayList<>();
 		try {
 			rs.beforeFirst();
@@ -1274,14 +1274,14 @@ public class HotelManagerScreen {
 				String numRented = String.valueOf(rs.getInt("c"));
 				list.add(numRented);
 				d[row][col] = numRented;
-				col++;
-				String begin = String.valueOf(rs.getDate("beginDate"));
-				list.add(begin);
-				d[row][col] = begin;
-				col++;
-				String end = String.valueOf(rs.getDate("endDate"));
-				list.add(end);
-				d[row][col] = end;
+//				col++;
+//				String begin = String.valueOf(rs.getDate("beginDate"));
+//				list.add(begin);
+//				d[row][col] = begin;
+//				col++;
+//				String end = String.valueOf(rs.getDate("endDate"));
+//				list.add(end);
+//				d[row][col] = end;
 				col++;
 				row ++;
 			}
@@ -1289,7 +1289,9 @@ public class HotelManagerScreen {
 		catch(Exception ex) {
 			System.out.println(ex);
 		}
-		String[] columns = {"Room ID", "Room Type", "Number of Times Rented", "Begin Date", "End Date"};
+		//String[] columns = {"Room ID", "Room Type", "Number of Times Rented", "Begin Date", "End Date"};
+		String[] columns = {"Room ID", "Room Type", "Number of Times Rented"};
+
 
 		JLabel nLabel = new JLabel("Rooms that were rented the most number of times over the last month");
 		nLabel.setFont(new Font("Serif", Font.PLAIN, 22));

@@ -406,7 +406,7 @@ public class HotelSQLProcedures {
 		ResultSet rs = null;
 		try {
 			PreparedStatement pst = myConn.prepareStatement(
-						"SELECT rID, roomType, cast(count(*) as INTEGER) c, beginDate, endDate"
+						"SELECT rID, roomType, cast(count(*) as INTEGER) c"
 						+ " FROM reservation INNER JOIN room USING(rID)"
 						+ " WHERE beginDate > DATE_SUB(CURDATE(), INTERVAL 30 DAY) and endDate < CURDATE()"
 						+ " group by rID"
